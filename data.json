@@ -2,6 +2,7 @@
   "languages": {
     "UA": {
       "label": "🇺🇦 Українська",
+      "short" : "🇺🇦 UA",
       "title": "StopPay 🛑",
       "desc": "Скасувати підписки в один клік",
       "global_title": "Глобальні сервіси",
@@ -12,6 +13,7 @@
     },
     "EN": {
       "label": "🇺🇸 English",
+      "short": "🇺🇸 EN",
       "title": "StopPay 🛑",
       "desc": "Cancel subscriptions in one click",
       "global_title": "Global Services",
@@ -22,6 +24,7 @@
     },
     "PL": {
       "label": "🇵🇱 Polski",
+      "short": "🇵🇱 PL",
       "title": "StopPay 🛑",
       "desc": "Anuluj subskrypcje jednym kliknięciem",
       "global_title": "Usługi globalne",
