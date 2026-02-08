@@ -23,9 +23,9 @@
     "PL": {
       "label": "🇵🇱 Polski",
       "title": "StopPay 🛑",
-      "desc": "Anuluj subskrypcje одним кліком",
+      "desc": "Anuluj subskrypcje jednym kliknięciem",
       "global_title": "Usługi globalne",
-      "local_title": "Usługi w Polsce",
+      "local_title": "Usługi в Polsce",
       "donate_t": "Oszczędziłeś pieniądze? 💸",
       "donate_d": "Wesprzyj projekt.",
       "donate_b": "Wesprzyj ☕"
@@ -37,6 +37,13 @@
       "name": "Google Play",
       "url": "https://play.google.com/store/account/subscriptions",
       "img": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg",
+      "type": "global"
+    },
+    {
+      "id": "apple",
+      "name": "Apple ID / iCloud",
+      "url": "https://appleid.apple.com/account/manage",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
       "type": "global"
     },
     {
