@@ -7,46 +7,37 @@
     <style>
         :root { --bg: #f8f9fa; --card: #ebebeb; --text: #2d3436; --border: #d1d1d1; }
         [data-theme="dark"] { --bg: #1a1a1a; --card: #3d3d3d; --text: #f8f9fa; --border: #555; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
-        /* Стильна кнопка мови — ФІКС */
+        /* Контейнер мови */
         .lang-container { position: relative; display: flex; align-items: center; }
         .lang-visual { 
-            position: absolute; 
-            pointer-events: none; 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            padding: 8px 12px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            font-size: 14px; 
-            white-space: nowrap; /* ЗАБОРОНЯЄ ПЕРЕНОС ТЕКСТУ */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px; /* Відстань між прапорцем і текстом */
-            min-width: 50px; /* Трохи збільшуємо мінімальну ширину */
+            position: absolute; pointer-events: none; 
+            background: var(--card); border: 1px solid var(--border); 
+            padding: 8px 12px; border-radius: 10px; 
+            font-weight: bold; font-size: 14px; 
+            display: flex; align-items: center; gap: 8px;
+            white-space: nowrap; z-index: 1;
         }
+        /* Стиль прапорця в кнопці */
+        .flag-img { width: 20px; height: 15px; object-fit: cover; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        
         select { 
-            opacity: 0; 
-            height: 38px; 
-            width: 80px; /* Збільшуємо ширину зони натискання */
-            cursor: pointer;
-            position: relative; 
-            z-index: 2;
+            opacity: 0; height: 40px; width: 85px; cursor: pointer;
+            position: relative; z-index: 2;
         }
 
-        .btn-tool { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .btn-tool { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 18px; }
         
         header { text-align: center; margin-bottom: 30px; }
         h1 { color: #ff4757; margin: 0; font-size: 2.2rem; }
         .section-title { width: 100%; max-width: 600px; margin: 25px 0 10px; font-size: 13px; text-transform: uppercase; opacity: 0.7; font-weight: bold; letter-spacing: 1px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 600px; margin-bottom: 20px; }
-        .card { background: var(--card); padding: 18px; border-radius: 18px; text-align: center; text-decoration: none; color: inherit; font-weight: 600; border: 1px solid var(--border); transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; }
+        .card { background: var(--card); padding: 18px; border-radius: 18px; text-align: center; text-decoration: none; color: inherit; font-weight: 600; border: 1px solid var(--border); transition: 0.2s; display: flex; flex-direction: column; align-items: center; }
         .card:active { transform: scale(0.95); }
-        .card img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .card img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 12px; }
         
         .donate-section { margin-top: auto; padding: 25px; background: var(--card); border-radius: 20px; text-align: center; max-width: 500px; border: 2px dashed #2ed573; margin-bottom: 20px; }
         .btn-donate { display: inline-block; margin-top: 15px; padding: 12px 30px; background: #2ed573; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; }
@@ -56,7 +47,10 @@
 
 <nav>
     <div class="lang-container">
-        <div class="lang-visual" id="langVisual">UA</div>
+        <div class="lang-visual" id="langVisual">
+            <img src="flags/UA.png" class="flag-img" id="currentFlag">
+            <span id="currentLangCode">UA</span>
+        </div>
         <select id="langSelect" onchange="saveAndRender()"></select>
     </div>
     <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
@@ -82,14 +76,10 @@
         try {
             const response = await fetch('data.json');
             siteData = await response.json();
-            
             applySavedSettings();
             initLangList();
             renderSite();
-        } catch (e) {
-            console.error(e);
-            document.getElementById('mainDesc').innerText = "Помилка завантаження даних.";
-        }
+        } catch (e) { console.error(e); }
     }
 
     function applySavedSettings() {
@@ -111,25 +101,24 @@
         Object.keys(siteData.languages).forEach(code => {
             const opt = document.createElement('option');
             opt.value = code;
-            opt.innerText = siteData.languages[code].label; 
+            opt.innerText = siteData.languages[code].label; // В списку - повна назва
             select.appendChild(opt);
         });
 
-        let targetLang = 'EN';
-        if (savedLang && siteData.languages[savedLang]) targetLang = savedLang;
-        else if (siteData.languages[browserLang]) targetLang = browserLang;
-        
+        let targetLang = siteData.languages[savedLang] ? savedLang : (siteData.languages[browserLang] ? browserLang : 'EN');
         select.value = targetLang;
-        document.getElementById('langVisual').innerText = siteData.languages[targetLang].short || targetLang;
+        updateLangVisual(targetLang);
+    }
+
+    function updateLangVisual(code) {
+        document.getElementById('currentFlag').src = `flags/${code}.png`;
+        document.getElementById('currentLangCode').innerText = siteData.languages[code].short || code;
     }
 
     function saveAndRender() {
         const lang = document.getElementById('langSelect').value;
         localStorage.setItem('lang', lang);
-        
-        // Оновлюємо візуальну кнопку
-        document.getElementById('langVisual').innerText = siteData.languages[lang].short || lang;
-        
+        updateLangVisual(lang);
         renderSite();
     }
 
@@ -182,4 +171,4 @@
     loadData();
 </script>
 </body>
-</html>
+            </html>
