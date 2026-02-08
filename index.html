@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopPay | Як швидко скасувати платні підписки</title>
+    <meta name="description" content="Прямі посилання на сторінки скасування підписок: YouTube, Netflix, Apple, Google Play та інші. Не витрачайте гроші дарма.">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --bg: #f1f2f6;
+            --card: #ffffff;
+            --text: #2f3542;
+        }
+        body {
+            font-family: -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { margin-bottom: 5px; color: var(--primary); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+        .card:active { transform: scale(0.95); }
+        .card img { width: 40px; height: 40px; margin-bottom: 10px; border-radius: 8px; }
+        
+        .donate-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #dfe4ea;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .btn-donate {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #2ed573;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>StopPay 🛑</h1>
+    <p>Натисніть на сервіс, щоб миттєво перейти до скасування підписки</p>
+</header>
+
+<div class="grid">
+    <a href="https://play.google.com/store/account/subscriptions" class="card" target="_blank">
+        <img src="https://www.gstatic.com/images/branding/product/2x/google_play_96dp.png" alt="Play Store">
+        <div>Google Play</div>
+    </a>
+
+    <a href="https://appleid.apple.com/account/manage" class="card" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+        <div>Apple / iCloud</div>
+    </a>
+
+    <a href="https://www.youtube.com/paid_memberships" class="card" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube">
+        <div>YouTube</div>
+    </a>
+
+    <a href="https://www.netflix.com/cancelplan" class="card" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
+        <div>Netflix</div>
+    </a>
+
+    <a href="https://www.spotify.com/account/subscription/change/" class="card" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+        <div>Spotify</div>
+    </a>
+
+    <a href="https://zoom.us/billing/plan" class="card" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom">
+        <div>Zoom</div>
+    </a>
+</div>
+
+<div class="donate-section">
+    <h3>Зберегли гроші?</h3>
+    <p>Цей сервіс безкоштовний. Ви можете підтримати розробника чашкою кави, якщо ми допомогли вам зупинити зайві витрати.</p>
+    <a href="#" class="btn-donate">Підтримати проект ☕</a>
+</div>
+
+<footer style="margin-top: 30px; font-size: 12px; color: #747d8c;">
+    &copy; 2026 StopPay. Ми не збираємо ваші дані.
+</footer>
+
+</body>
+  </html>
+  
