@@ -5,167 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StopPay 🛑</title>
     <style>
-        :root {
-            --bg: #f8f9fa; 
-            --card: #ebebeb; /* Світло-сірий для світлої теми */
-            --text: #2d3436; 
-            --border: #d1d1d1;
-        }
-        [data-theme="dark"] {
-            --bg: #1a1a1a; 
-            --card: #3d3d3d; /* Темно-сірий для контрасту з лого */
-            --text: #f8f9fa; 
-            --border: #555;
-        }
+        :root { --bg: #f8f9fa; --card: #ebebeb; --text: #2d3436; --border: #d1d1d1; }
+        [data-theme="dark"] { --bg: #1a1a1a; --card: #3d3d3d; --text: #f8f9fa; --border: #555; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        
-        nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-tool, select { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; outline: none; }
-
+        nav { width: 100%; max-width: 600px; display: flex; justify-content: space-between; margin-bottom: 20px; }
+        select, .btn-tool { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 10px; outline: none; }
         header { text-align: center; margin-bottom: 30px; }
-        h1 { font-size: 2rem; color: #ff4757; margin: 0; }
-        
-        .section-title { width: 100%; max-width: 600px; margin: 25px 0 10px; font-size: 13px; text-transform: uppercase; opacity: 0.7; letter-spacing: 1.5px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 600px; }
-        
-        .card { background: var(--card); padding: 15px; border-radius: 16px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); text-decoration: none; color: inherit; transition: 0.2s; font-weight: 600; border: 1px solid var(--border); }
+        h1 { color: #ff4757; margin: 0; }
+        .section-title { width: 100%; max-width: 600px; margin: 25px 0 10px; font-size: 13px; text-transform: uppercase; opacity: 0.7; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 600px; margin-bottom: 20px; }
+        .card { background: var(--card); padding: 15px; border-radius: 16px; text-align: center; text-decoration: none; color: inherit; font-weight: 600; border: 1px solid var(--border); transition: 0.2s; }
         .card:active { transform: scale(0.95); }
-        .card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-
+        .card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 10px; }
         .donate-section { margin-top: 40px; padding: 20px; background: var(--card); border-radius: 20px; text-align: center; max-width: 500px; border: 2px dashed #2ed573; }
         .btn-donate { display: inline-block; margin-top: 15px; padding: 10px 25px; background: #2ed573; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; }
-        
-        .hidden { display: none; }
     </style>
 </head>
 <body data-theme="light">
 
 <nav>
-    <select id="langSelect" onchange="changeLang()">
-        <option value="UA">🇺🇦 Українська</option>
-        <option value="EN">🇺🇸 English</option>
-        <option value="DE">🇩🇪 Deutsch</option>
-    </select>
+    <select id="langSelect" onchange="renderSite()"></select>
     <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
 </nav>
 
 <header>
     <h1 id="mainTitle">StopPay 🛑</h1>
-    <p id="mainDesc">Миттєвий перехід до керування підписками</p>
+    <p id="mainDesc">...</p>
 </header>
 
-<div class="section-title" id="globalTitle">Global Services</div>
-<div class="grid">
-    <a href="https://play.google.com/store/account/subscriptions" class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Play Store">
-        <div>Google Play</div>
-    </a>
-    <a href="https://www.youtube.com/paid_memberships" class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube">
-        <div>YouTube</div>
-    </a>
-    <a href="https://www.netflix.com/cancelplan" class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
-        <div>Netflix</div>
-    </a>
-</div>
-
-<div id="uaSection" class="hidden">
-    <div class="section-title">Українські сервіси</div>
-    <div class="grid">
-        <a href="https://megogo.net/uk/cabinet/subscription" class="card">
-            <img src="icons/MEGOGO.png" alt="Megogo">
-            <div>Megogo</div>
-        </a>
-        <a href="https://sweet.tv/cabinet/subscriptions" class="card">
-            <img src="icons/Sweet.tv_logo.png" alt="Sweet.tv">
-            <div>Sweet.tv</div>
-        </a>
-    </div>
-</div>
+<div id="siteContent"></div>
 
 <div class="donate-section">
-    <h3 id="donateTitle">Зберегли гроші? 💸</h3>
-    <p id="donateDesc">Підтримайте проект, якщо ми допомогли вам зупинити зайві списання.</p>
-    <a href="ВАШЕ_ПОСИЛАННЯ_НА_БАНКУ" class="btn-donate" id="donateBtn">Підтримати ☕</a>
+    <h3 id="donateTitle">...</h3>
+    <p id="donateDesc">...</p>
+    <a href="#" class="btn-donate" id="donateBtn">...</a>
 </div>
 
 <script>
-    const translations = {
-        UA: {
-            title: "StopPay 🛑",
-            desc: "Миттєвий перехід до керування підписками",
-            global: "Глобальні сервіси",
-            donateT: "Зберегли гроші? 💸",
-            donateD: "Підтримайте проект, якщо ми допомогли вам.",
-            donateB: "Підтримати ☕"
-        },
-        EN: {
-            title: "StopPay 🛑",
-            desc: "Quick access to cancel subscriptions",
-            global: "Global Services",
-            donateT: "Saved money? 💸",
-            donateD: "Support the project if we helped you.",
-            donateB: "Support ☕"
-        },
-        DE: {
-            title: "StopPay 🛑",
-            desc: "Schneller Zugriff auf Abonnements",
-            global: "Globale Dienste",
-            donateT: "Geld gespart? 💸",
-            donateD: "Unterstützen Sie das Projekt, wenn wir Ihnen geholfen haben.",
-            donateB: "Unterstützen ☕"
-        }
-    };
+    let siteData = null;
+
+    async function loadData() {
+        const response = await fetch('data.json');
+        siteData = await response.json();
+        initLang();
+        renderSite();
+    }
+
+    function initLang() {
+        const select = document.getElementById('langSelect');
+        const userLang = navigator.language.substring(0, 2).toUpperCase();
+        
+        Object.keys(siteData.languages).forEach(lang => {
+            const opt = document.createElement('option');
+            opt.value = lang;
+            opt.innerText = lang === 'UA' ? '🇺🇦 UA' : lang === 'PL' ? '🇵🇱 PL' : '🇺🇸 EN';
+            if (lang === userLang) opt.selected = true;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderSite() {
+        const lang = document.getElementById('langSelect').value;
+        const info = siteData.languages[lang];
+        
+        // Тексти
+        document.getElementById('mainTitle').innerText = info.title;
+        document.getElementById('mainDesc').innerText = info.desc;
+        document.getElementById('donateTitle').innerText = info.donate_t;
+        document.getElementById('donateDesc').innerText = info.donate_d;
+        document.getElementById('donateBtn').innerText = info.donate_b;
+
+        // Картки
+        const container = document.getElementById('siteContent');
+        container.innerHTML = '';
+
+        const types = ['global', lang]; 
+        types.forEach(type => {
+            const services = siteData.services.filter(s => s.type === type);
+            if (services.length > 0) {
+                const title = document.createElement('div');
+                title.className = 'section-title';
+                title.innerText = type === 'global' ? info.global_title : info.local_title;
+                container.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                services.forEach(s => {
+                    grid.innerHTML += `
+                        <a href="${s.url}" class="card" target="_blank">
+                            <img src="${s.img}" alt="${s.name}">
+                            <div>${s.name}</div>
+                        </a>
+                    `;
+                });
+                container.appendChild(grid);
+            }
+        });
+    }
 
     function toggleTheme() {
         const body = document.body;
-        const btn = document.getElementById('themeBtn');
         const isDark = body.getAttribute('data-theme') === 'dark';
         body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        btn.innerText = isDark ? '🌙' : '☀️';
+        document.getElementById('themeBtn').innerText = isDark ? '🌙' : '☀️';
     }
 
-    function changeLang() {
-        const lang = document.getElementById('langSelect').value;
-        const content = translations[lang];
-        
-        document.getElementById('mainTitle').innerText = content.title;
-        document.getElementById('mainDesc').innerText = content.desc;
-        document.getElementById('globalTitle').innerText = content.global;
-        document.getElementById('donateTitle').innerText = content.donateT;
-        document.getElementById('donateDesc').innerText = content.donateD;
-        document.getElementById('donateBtn').innerText = content.donateB;
-
-        // Показуємо UA секцію тільки якщо вибрано UA
-        document.getElementById('uaSection').classList.toggle('hidden', lang !== 'UA');
-    }
-
-    // Ініціалізація при завантаженні
-    window.onload = () => {
-        // 1. Налаштування теми
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            toggleTheme();
-        }
-        
-        // 2. Налаштування мови
-        // Отримуємо мову (наприклад, 'uk-UA' стає 'UA', 'en-US' стає 'EN')
-        let userLang = navigator.language.substring(0, 2).toUpperCase();
-        if (userLang === 'UK') userLang = 'UA'; // Корекція для української
-        
-        const select = document.getElementById('langSelect');
-        
-        // Перевіряємо, чи є у нас така мова в списку, якщо ні — ставимо EN
-        if (translations[userLang]) {
-            select.value = userLang;
-        } else {
-            select.value = 'EN';
-        }
-
-        // ВАЖЛИВО: Викликаємо функцію оновлення контенту
-        changeLang(); 
-    };
+    loadData();
 </script>
-
 </body>
 </html>
