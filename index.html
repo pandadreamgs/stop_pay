@@ -161,10 +161,12 @@
         } catch (e) { console.error(e); }
     }
 
-    // --- ОНОВЛЕНИЙ ПОШУК (ШУКАЄ ВСЮДИ) ---
+// --- ОНОВЛЕНИЙ ПОШУК З ЛОКАЛІЗАЦІЄЮ ---
     function filterServices() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const container = document.getElementById('siteContent');
+        const lang = localStorage.getItem('lang') || 'EN';
+        const info = siteData.languages[lang];
 
         // 1. Якщо пошук порожній — повертаємо стандартний вигляд
         if (!query) {
@@ -172,16 +174,15 @@
             return;
         }
 
-        // 2. Якщо щось ввели — очищаємо екран і шукаємо по ВСІЙ базі
+        // 2. Якщо щось ввели — шукаємо по ВСІЙ базі
         container.innerHTML = '';
-        
-        // Фільтруємо всі сервіси з JSON
         const matches = siteData.services.filter(s => s.name.toLowerCase().includes(query));
 
         if (matches.length > 0) {
             const title = document.createElement('div');
             title.className = 'section-title';
-            title.innerText = "Results / Результати 🔍"; // Можна зробити переклад, але і так зрозуміло
+            // Беремо текст із JSON
+            title.innerText = info.search_results || "Results"; 
             container.appendChild(title);
 
             const grid = document.createElement('div');
@@ -192,7 +193,8 @@
             });
             container.appendChild(grid);
         } else {
-            container.innerHTML = '<p style="opacity: 0.5; margin-top: 20px;">Nothing found / Нічого не знайдено 🤷‍♂️</p>';
+            // Беремо текст із JSON для "Нічого не знайдено"
+            container.innerHTML = `<p style="opacity: 0.5; margin-top: 40px; text-align: center;">${info.search_not_found || "Nothing found"}</p>`;
         }
     }
 
