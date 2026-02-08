@@ -55,11 +55,18 @@
       "url": "https://www.netflix.com/cancelplan",
       "img": "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
       "type": "global"
-    },
+    },https://sweet.tv/cabinet/subscriptions
     {
       "id": "megogo",
       "name": "Megogo",
       "url": "https://megogo.net/uk/cabinet/subscription",
+      "img": "icons/MEGOGO.png",
+      "type": "UA"
+    },
+    {
+      "id": "megogo",
+      "name": "Megogo",
+      "url": "https:/uk/cabineption",
       "img": "icons/MEGOGO.png",
       "type": "UA"
     }
