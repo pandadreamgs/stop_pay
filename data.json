@@ -1,37 +1,36 @@
 {
   "languages": {
     "UA": {
-      "label": "Українська",
-      "short" : "UA",
+      "label": "🇺🇦 Українська",
+      "short": "UA",
       "title": "StopPay 🛑",
       "desc": "Скасувати підписки в один клік",
+      "seo_text": "<h3>Як скасувати підписку?</h3><p>StopPay допомагає зупинити автоматичні списання грошей з вашої картки. Тут ви знайдете прямі посилання, щоб скасувати підписку Apple, Google Play, Netflix, Megogo та інших сервісів. Не дозволяйте сервісам списувати гроші за те, чим ви не користуєтесь.</p>",
+      "search_placeholder": "Знайти сервіс...",
+      "feedback_title": "Не знайшли сервіс?",
+      "feedback_desc": "Напишіть назву, і ми додамо його.",
+      "feedback_btn": "Надіслати",
       "global_title": "Глобальні сервіси",
       "local_title": "Українські сервіси",
       "donate_t": "Зберегли гроші? 💸",
       "donate_d": "Підтримайте проект чашкою кави.",
-      "donate_b": "Підтримати ☕"
+      "donate_b": "Buy Me a Coffee ☕"
     },
     "EN": {
-      "label": "English",
+      "label": "🇺🇸 English",
       "short": "EN",
       "title": "StopPay 🛑",
       "desc": "Cancel subscriptions in one click",
+      "seo_text": "<h3>How to cancel subscriptions?</h3><p>StopPay helps you stop automatic charges on your credit card. Find direct links to cancel subscriptions for Apple, Google Play, Netflix, Spotify, and more. Stop paying for services you don't use anymore.</p>",
+      "search_placeholder": "Find service...",
+      "feedback_title": "Missing a service?",
+      "feedback_desc": "Tell us, and we will add it.",
+      "feedback_btn": "Send",
       "global_title": "Global Services",
       "local_title": "Local Services",
       "donate_t": "Saved money? 💸",
       "donate_d": "Support the project with a coffee.",
-      "donate_b": "Support ☕"
-    },
-    "PL": {
-      "label": "Polski",
-      "short": "PL",
-      "title": "StopPay 🛑",
-      "desc": "Anuluj subskrypcje jednym kliknięciem",
-      "global_title": "Usługi globalne",
-      "local_title": "Usługi в Polsce",
-      "donate_t": "Oszczędziłeś pieniądze? 💸",
-      "donate_d": "Wesprzyj projekt.",
-      "donate_b": "Wesprzyj ☕"
+      "donate_b": "Buy Me a Coffee ☕"
     }
   },
   "services": [
