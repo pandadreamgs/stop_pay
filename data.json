@@ -1,6 +1,7 @@
 {
   "languages": {
     "UA": {
+      "label": "🇺🇦 Українська",
       "title": "StopPay 🛑",
       "desc": "Скасувати підписки в один клік",
       "global_title": "Глобальні сервіси",
@@ -9,13 +10,24 @@
       "donate_d": "Підтримайте проект чашкою кави.",
       "donate_b": "Підтримати ☕"
     },
-    "PL": {
+    "EN": {
+      "label": "🇺🇸 English",
       "title": "StopPay 🛑",
-      "desc": "Anuluj subskrypcje jednym kliknięciem",
+      "desc": "Cancel subscriptions in one click",
+      "global_title": "Global Services",
+      "local_title": "Local Services",
+      "donate_t": "Saved money? 💸",
+      "donate_d": "Support the project with a coffee.",
+      "donate_b": "Support ☕"
+    },
+    "PL": {
+      "label": "🇵🇱 Polski",
+      "title": "StopPay 🛑",
+      "desc": "Anuluj subskrypcje одним кліком",
       "global_title": "Usługi globalne",
       "local_title": "Usługi w Polsce",
       "donate_t": "Oszczędziłeś pieniądze? 💸",
-      "donate_d": "Wesprzyj projekt filiżanką kawy.",
+      "donate_d": "Wesprzyj projekt.",
       "donate_b": "Wesprzyj ☕"
     }
   },
@@ -40,13 +52,6 @@
       "url": "https://megogo.net/uk/cabinet/subscription",
       "img": "icons/MEGOGO.png",
       "type": "UA"
-    },
-    {
-      "id": "allegro",
-      "name": "Allegro Smart",
-      "url": "https://allegro.pl/moje-allegro/zakupy/allegro-smart",
-      "img": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Allegro.pl_logo.svg",
-      "type": "PL"
     }
   ]
 }
