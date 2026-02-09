@@ -49,17 +49,14 @@ async function loadData() {
         const response = await fetch('data.json');
         siteData = await response.json();
         
+        // Отримуємо актуальну суму з сервера
+        totalSaved = await syncGlobalCounter(0);
+        
+        updateCounter(0); // Відображаємо
         applySavedSettings();
         initCustomMenu();
         renderSite();
-        updateCounter(0); 
-        
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
-        }
-    } catch (e) { 
-        console.error("Data loading error:", e); 
-    }
+    } catch (e) { console.error(e); }
 }
 
 // --- ЛІЧИЛЬНИК ---
