@@ -215,8 +215,8 @@ function sendToAi() {
     }
 
     // ТУТ ВКАЖИ СВІЙ ЛОГІН ТА НАЗВУ РЕПОЗИТОРІЮ
-    const GITHUB_USERNAME = "ТВІЙ_ЛОГІН"; 
-    const REPO_NAME = "НАЗВА_РЕПО";
+    const GITHUB_USERNAME = "pandadreamgs"; 
+    const REPO_NAME = "stop_pay";
 
     const title = encodeURIComponent("Add Service: " + serviceName);
     const body = encodeURIComponent("Please add " + serviceName + " to the database. AI logic will handle this.");
