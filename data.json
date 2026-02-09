@@ -20,7 +20,9 @@
       "cat_phone" : "Мобільні додатки",
       "donate_t": "Зберегли гроші? 💸",
       "donate_d": "Підтримайте проект чашкою кави.",
-      "donate_b": "Buy Me a Coffee ☕"
+      "donate_b": "Buy Me a Coffee ☕",
+      "footer_created": "Створено",
+      "footer_slogan": "Маленькі інструменти для великих мрій."
     },
     "EN": {
       "label": "English",
@@ -42,7 +44,9 @@
       "cat_phone" : "Mobile adverts",
       "donate_t": "Saved money? 💸",
       "donate_d": "Support the project with a coffee.",
-      "donate_b": "Buy Me a Coffee ☕"
+      "donate_b": "Buy Me a Coffee ☕",
+      "footer_created": "Created by",
+      "footer_slogan": "Small tools, big dreams."
     }
   },
   "services": [
