@@ -61,6 +61,7 @@ function renderSite() {
     container.innerHTML = '';
 
     const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+    safeSet('counterLabel', info.counter_label);
     safeSet('mainTitle', info.title);
     safeSet('mainDesc', info.desc);
     safeSet('donateTitle', info.donate_t);
