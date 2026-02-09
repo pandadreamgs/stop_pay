@@ -31,6 +31,16 @@ async function syncGlobalCounter(amount = 0) {
     }
 }
 
+function getPriceInLocalCurrency(priceInUsd, info) {
+    const rate = info.exchange_rate || 1;
+    const localPrice = priceInUsd * rate;
+    
+    // Якщо це гривня, округлюємо до цілого (UX: 301₴ виглядає краще ніж 301.54₴)
+    // Якщо долар — лишаємо 2 знаки після коми
+    return (info.currency_symbol === '₴') 
+        ? Math.round(localPrice) 
+        : localPrice.toFixed(2);
+}
 // --- ЗАВАНТАЖЕННЯ ---
 async function loadData() {
     try {
