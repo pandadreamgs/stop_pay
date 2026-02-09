@@ -5,7 +5,7 @@ import google.generativeai as genai
 def add_service_via_ai(service_name):
     # Налаштування Gemini
     genai.configure(api_key=os.environ["GEMINI_KEY"])
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash')
 
     # Завантажуємо існуючий файл
     with open('data.json', 'r', encoding='utf-8') as f:
@@ -17,8 +17,20 @@ def add_service_via_ai(service_name):
         return
 
     # Запит до ШІ
-    prompt = f"Згенеруй дані для сервісу '{service_name}' у форматі JSON для проекту StopPay. Слідуй правилам: category може бути tv, phone, other. Type: UA або global. Поверни тільки об'єкт."
+    prompt = f"Ти — спеціаліст із наповнення бази даних сервісів StopPay. Твоє завдання: отримати назву сервісу та повернути JSON-об'єкт.
+
+    id: латиниця, нижній регістр, без пробілів.
     
+    category: вибери з ['tv', 'phone', 'other'].
+    
+    price: середня ціна підписки в USD (число).
+    
+    url: ПРЯМЕ посилання на сторінку скасування підписки.
+    
+    img: пряме посилання на логотип (SVG або PNG на прозорому фоні).
+    
+    type: 'UA', якщо сервіс локальний для України, інакше 'global'. Поверни ТІЛЬКИ чистий JSON."
+        
     response = model.generate_content(prompt)
     try:
         # Очищуємо відповідь від можливих markdown-тегів
