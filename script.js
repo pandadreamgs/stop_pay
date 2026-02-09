@@ -211,24 +211,29 @@ async function sendToAi() {
     
     if (!serviceName) return;
 
-    // Візуальний фідбек для кнопки
+    // Визначаємо поточну мову
+    const lang = localStorage.getItem('lang') || 'UA';
+    const info = siteData.languages[lang] || siteData.languages['UA'];
+
+    // Візуальний фідбек для кнопки (беремо текст "ai_sending")
     const btn = document.getElementById('modalBtn');
     const originalText = btn.innerText;
-    btn.innerText = "⌛...";
+    btn.innerText = info.ai_sending || "⌛...";
     btn.disabled = true;
 
     try {
-        // Відправляємо запит на твій BRIDGE_URL
-        // Параметр ?service=... активує створення Issue в Google Скрипті
+        // Відправляємо запит на BRIDGE_URL
         await fetch(`${BRIDGE_URL}?service=${encodeURIComponent(serviceName)}`, { mode: 'no-cors' });
         
-        alert("✅ Запит прийнято! ШІ додасть сервіс протягом 1-2 хвилин. Перевірте список пізніше.");
+        // Виводимо перекладене повідомлення про успіх
+        alert(info.ai_success);
         
         input.value = "";
-        toggleModal(); // Закриваємо модалку
+        toggleModal(); 
     } catch (e) {
         console.error(e);
-        alert("Помилка відправки. Спробуйте пізніше.");
+        // Виводимо перекладене повідомлення про помилку
+        alert(info.ai_error);
     } finally {
         btn.innerText = originalText;
         btn.disabled = false;
