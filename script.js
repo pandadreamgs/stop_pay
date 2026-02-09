@@ -1,7 +1,7 @@
 let siteData = null;
 let totalSavedUsd = 0; 
 
-const API_KEY = 'A3$D34gsas3#$Fas'; // Твій унікальний ключ
+const API_KEY = 'A3$D34gsasl3#$Fas'; // Твій унікальний ключ
 const API_URL = `https://api.countapi.it`;
 
 // --- ЛІЧИЛЬНИК ТА СИНХРОНІЗАЦІЯ ---
@@ -14,8 +14,8 @@ async function syncGlobalCounter(amountUsd = 0) {
         } else {
             response = await fetch(`${API_URL}/get/stoppay.io/${API_KEY}`);
             if (response.status === 404) {
-                await fetch(`${API_URL}/create/stoppay.io/${API_KEY}?value=2800`);
-                return 2800;
+                await fetch(`${API_URL}/create/stoppay.io/${API_KEY}?value=0`);
+                return 0;
             }
         }
         const data = await response.json();
