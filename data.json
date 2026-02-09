@@ -3,6 +3,8 @@
     "UA": {
       "label": "Українська",
       "short": "UA",
+      "currency_symbol": "₴",
+      "exchange_rate": 43.14,
       "title": "StopPay 🛑",
       "desc": "Скасувати підписки в один клік",
       "search_results": "Результати пошуку",
@@ -22,6 +24,8 @@
     "EN": {
       "label": "English",
       "short": "EN",
+      "currency_symbol": "$",
+      "exchange_rate": 1,
       "title": "StopPay 🛑",
       "desc": "Cancel subscriptions in one click",
       "search_results": "Search Results",
