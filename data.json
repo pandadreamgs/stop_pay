@@ -98,26 +98,6 @@
       "url": "https://sweet.tv/cabinet/subscriptions",
       "img": "icons/Sweet.tv_logo.png",
       "type": "UA"
-    },
-    {
-      "id": "youtube-premium",
-      "name": "YouTube Premium",
-      "category": "tv/phone/other",
-      "price": 13.99,
-      "url": "https://support.google.com/youtube/answer/6308278?hl=en",
-      "img": "https://www.youtube.com/img/desktop/yt_1200.png",
-      "type": "global"
-    },
-    [
-      {
-        "id": "netflix-cancel-1",
-        "name": "Netflix",
-        "category": "tv",
-        "price": 0.0,
-        "url": "https://help.netflix.com/en/node/407",
-        "img": "https://assets.nflxext.com/ffe/siteui/dWvQly38j569RjIm6CRqqtJvr-w/hub-generic/small/netflix-n-logo.png",
-        "type": "global"
-      }
-    ]
+    }
   ]
 }
