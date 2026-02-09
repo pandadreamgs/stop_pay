@@ -56,6 +56,7 @@ function renderSite() {
     if (!siteData) return;
     const lang = localStorage.getItem('lang') || 'UA';
     const info = siteData.languages[lang] || siteData.languages['UA'];
+    document.title = info.title + " — " + info.desc;
     const container = document.getElementById('siteContent');
     if (!container) return;
     container.innerHTML = '';
