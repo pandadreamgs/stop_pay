@@ -151,6 +151,78 @@
       "url": "https://play.google.com/store/account/subscriptions",
       "img": "icons/default.png",
       "type": "global"
+    },
+    {
+      "id": "kyivstar-tv",
+      "name": "Kyivstar TV",
+      "category": "tv",
+      "price": 3.0,
+      "url": "https://tv.kyivstar.ua/profile/subscription",
+      "img": "icons/default.png",
+      "type": "UA"
+    },
+    {
+      "id": "mobile-plan",
+      "name": "Mobile Plan",
+      "category": "phone",
+      "price": 29.99,
+      "url": "https://www.verizon.com/my-verizon/services/cancel-service/",
+      "img": "icons/default.png",
+      "type": "global"
+    },
+    {
+      "id": "t-mobile-data-plan",
+      "name": "T-Mobile Data Plan",
+      "category": "phone",
+      "price": 50.0,
+      "url": "https://my.t-mobile.com/account/profile/line/cancel",
+      "img": "icons/default.png",
+      "type": "global"
+    },
+    {
+      "id": "home-internet",
+      "name": "Home Internet",
+      "category": "local",
+      "price": 49.99,
+      "url": "https://example.com/manage/subscriptions/cancel",
+      "img": "icons/default.png",
+      "type": "global"
+    },
+    {
+      "id": "kyivstar-go-tv",
+      "name": "Kyivstar Go TV",
+      "category": "tv",
+      "price": 3.0,
+      "url": "https://tv.kyivstar.ua/profile/subscription",
+      "img": "icons/default.png",
+      "type": "UA"
+    },
+    {
+      "id": "sim-for-devices",
+      "name": "SIM for Devices",
+      "category": "phone",
+      "price": 4.99,
+      "url": "https://example.com/manage-subscription/sim-devices/cancel",
+      "img": "icons/default.png",
+      "type": "global"
+    },
+    {
+      "id": "dou-family",
+      "name": "DOU Family",
+      "category": "local",
+      "price": 2.0,
+      "url": "https://dou.ua/my/billing/subscriptions/",
+      "img": "icons/default.png",
+      "type": "UA"
+    },
+    {
+      "id": "kyivstar-all-together",
+      "name": "Kyivstar All Together",
+      "category": "phone",
+      "price": 12.5,
+      "url": "https://kyivstar.ua/en/mm/mymoney/tariffs/management",
+      "img": "icons/default.png",
+      "type": "UA"
     }
   ]
 }
