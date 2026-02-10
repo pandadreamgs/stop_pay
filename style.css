@@ -112,34 +112,38 @@ h1 { color: var(--accent); margin: 0; font-size: 2.2rem; }
 .seo-block h3 { margin-top: 0; color: var(--accent); }
 
 /* --- DONATE --- */
-.donate-section { 
-    margin-top: auto; 
-    padding: 25px; 
-    background: var(--card); 
-    border-radius: 20px; 
-    text-align: center; 
-    max-width: 500px; 
-    border: 2px dashed #FFDD00; 
-    margin-bottom: 60px; 
+/* Весь блок із рамкою */
+.donate-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: rgba(46, 213, 115, 0.05); /* Легкий зелений відтінок фону */
+    border: 2px dashed #2ed573; /* Зелена пунктирна рамка */
+    border-radius: 20px;
+    text-align: center;
 }
 
+/* Кнопка "Buy Me a Coffee" */
 .btn-donate {
     display: inline-block;
-    background-color: #ffdd00; /* Жовтий колір BMC */
-    color: #000000 !important; /* Жорстко фіксуємо чорний колір тексту */
+    background-color: #2ed573 !important; /* Насичений зелений */
+    color: #ffffff !important; /* Білий текст на зеленому фоні зазвичай читається краще */
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 12px;
     text-decoration: none;
     font-weight: bold;
-    transition: transform 0.2s;
-    /* Додаємо ці властивості для скидання системних стилів */
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    border: none;
+    /* Скидання системних стилів для мобільних браузерів */
     -webkit-appearance: none;
     appearance: none;
+    -webkit-text-fill-color: #ffffff !important;
 }
 
 .btn-donate:hover {
-    transform: scale(1.05);
-    color: #000000 !important; /* Щоб при наведенні колір не стрибав */
+    background-color: #26af5a !important; /* Трохи темніший при наведенні */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3);
 }
 
 /* --- FLOATING FEEDBACK BTN --- */
