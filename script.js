@@ -10,22 +10,31 @@ const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbxncDx1chSAMgYL43MwP
 async function syncGlobalCounter(amountUsd = 0) {
     if (!BRIDGE_URL) return totalSavedUsd;
     
-    // Додаємо параметр до посилання
-    const urlWithParams = amountUsd > 0 
-        ? `${BRIDGE_URL}?amount=${amountUsd}` 
-        : BRIDGE_URL;
+    // Формуємо URL
+    const url = new URL(BRIDGE_URL);
+    if (amountUsd > 0) url.searchParams.set('amount', amountUsd);
 
     try {
-        const response = await fetch(urlWithParams);
+        // Використовуємо звичайний fetch, але обробляємо можливі редиректи Google
+        const response = await fetch(url);
+        
+        // Якщо Google Script повернув JSON
         const data = await response.json();
         
-        if (data.total_saved_usd !== undefined) {
+        if (data && data.total_saved_usd !== undefined) {
             totalSavedUsd = data.total_saved_usd;
             localStorage.setItem('cachedTotalSaved', totalSavedUsd);
+            
+            // Оновлюємо цифри на сторінці відразу після отримання даних
+            const lang = localStorage.getItem('lang') || 'UA';
+            const info = siteData.languages[lang] || siteData.languages['UA'];
+            const rate = info.exchange_rate || 1;
+            const counterEl = document.getElementById('moneyCounter');
+            if (counterEl) counterEl.innerText = Math.round(totalSavedUsd * rate).toLocaleString();
         }
         return totalSavedUsd;
     } catch (e) {
-        console.error("Помилка містка:", e);
+        console.error("Помилка синхронізації:", e);
         return parseFloat(localStorage.getItem('cachedTotalSaved')) || 0;
     }
 }
@@ -35,19 +44,19 @@ async function updateCounter(addUsd = 0) {
     const lang = localStorage.getItem('lang') || 'UA';
     const info = siteData.languages[lang] || siteData.languages['UA'];
     
+    // 1. Спочатку оновлюємо візуально (для швидкості)
     totalSavedUsd += addUsd;
-    localStorage.setItem('cachedTotalSaved', totalSavedUsd);
-
     const rate = info.exchange_rate || 1;
-    const displayValue = Math.round(totalSavedUsd * rate);
-    
     const counterEl = document.getElementById('moneyCounter');
     const currencyEl = document.getElementById('currency');
     
-    if (counterEl) counterEl.innerText = displayValue.toLocaleString();
+    if (counterEl) counterEl.innerText = Math.round(totalSavedUsd * rate).toLocaleString();
     if (currencyEl) currencyEl.innerText = info.currency_symbol;
 
-    if (addUsd > 0 && BRIDGE_URL) syncGlobalCounter(addUsd);
+    // 2. Потім відправляємо на сервер
+    if (addUsd > 0 && BRIDGE_URL) {
+        await syncGlobalCounter(addUsd);
+    }
 }
 
 // --- РЕНДЕРИНГ (НОВА ЛОГІКА КАТЕГОРІЙ) ---
