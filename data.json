@@ -104,15 +104,6 @@
       "url": "https://sweet.tv/cabinet/subscriptions",
       "img": "icons/Sweet.tv_logo.png",
       "type": "UA"
-    },
-    {
-      "id": "youtube",
-      "name": "YouTube",
-      "category": "tv",
-      "price": 13.99,
-      "url": "https://www.youtube.com/paid_memberships?ybp=mAEK",
-      "img": "https://www.youtube.com/img/desktop/yt_1200.png",
-      "type": "global"
     }
   ]
 }
