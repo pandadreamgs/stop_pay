@@ -1,7 +1,16 @@
 
-    <html><script>
-    var lang = str = navigator.language.split('-')[0];
-    if (lang == 'uk') window.location.href = '/ua/';
-    else window.location.href = '/en/';
-    </script></html>
+    <!DOCTYPE html>
+    <html>
+    <head><title>StopPay</title></head>
+    <body>
+    <script>
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('uk') || userLang.startsWith('ru')) {
+            window.location.href = '/ua/';
+        } else {
+            window.location.href = '/en/';
+        }
+    </script>
+    </body>
+    </html>
     

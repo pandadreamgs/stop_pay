@@ -17,7 +17,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ff4757">
 </head>
-<body>
+<body onload="localStorage.setItem('lang', 'UA')">
 
 <nav>
     <div class="custom-select" id="langSelector" translate="no">
@@ -46,7 +46,14 @@
         </a>
     </h1>
     
-    <div id="siteContent"></div>
+    
+        <p id="mainDesc">Прямі посилання для скасування підписок</p>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" onkeyup="filterServices()">
+        </div>
+        <div id="siteContent" style="width: 100%; max-width: 600px;"></div>
+        
 
 </header>
 
