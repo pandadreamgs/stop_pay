@@ -1,13 +1,1 @@
-
-    <!DOCTYPE html>
-    <html>
-    <head><title>StopPay</title></head>
-    <body>
-    <script>
-        const userLang = navigator.language || navigator.userLanguage;
-        const target = (userLang.startsWith('uk') || userLang.startsWith('ru')) ? '/ua/' : '/en/';
-        window.location.href = '/stop_pay' + target;
-    </script>
-    </body>
-    </html>
-    
+<html><script>window.location.href='/stop_pay/ua/'</script></html>
