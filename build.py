@@ -2,71 +2,73 @@ import json
 import os
 import shutil
 
+# Назва твого репозиторію на GitHub
 BASE_PATH = "/stop_pay"
 
 def build():
-    if os.path.exists('dist'): shutil.rmtree('dist')
+    # 1. Очищення та створення структури
+    if os.path.exists('dist'):
+        shutil.rmtree('dist')
     os.makedirs('dist', exist_ok=True)
 
-    # 1. Збираємо всі сервіси в один список для data.json
+    # 2. АВТО-ПОШУК МОВ: скануємо папку i18n
+    available_langs = [f.replace('.json', '') for f in os.listdir('i18n') if f.endswith('.json')]
+    print(f"Знайдено мови: {available_langs}")
+
+    # 3. ЗБІР СЕРВІСІВ: зшиваємо всі JSON з папки services
     all_services = []
     if os.path.exists('services'):
         for s_file in os.listdir('services'):
             if s_file.endswith('.json'):
-                with open(f'services/{s_file}', 'r', encoding='utf-8') as f:
-                    all_services.append(json.load(f))
-    
-    # Записуємо зшитий файл у dist
+                with open(os.path.join('services', s_file), 'r', encoding='utf-8') as f:
+                    try:
+                        all_services.append(json.load(f))
+                    except Exception as e:
+                        print(f"Помилка у файлі {s_file}: {e}")
+
+    # 4. СТВОРЕННЯ НОВОГО data.json у dist (головний файл для JS)
     with open('dist/data.json', 'w', encoding='utf-8') as f:
-        json.dump({"services": all_services}, f, ensure_ascii=False)
+        json.dump({
+            "available_languages": available_langs,
+            "services": all_services
+        }, f, ensure_ascii=False, indent=2)
 
-    # 2. Копіюємо асети та мови
-    shutil.copytree('assets', 'dist/assets', dirs_exist_ok=True)
-    shutil.copytree('i18n', 'dist/i18n', dirs_exist_ok=True)
+    # 5. КОПІЮВАННЯ АСЕТІВ
+    if os.path.exists('assets'):
+        shutil.copytree('assets', 'dist/assets', dirs_exist_ok=True)
+    if os.path.exists('i18n'):
+        shutil.copytree('i18n', 'dist/i18n', dirs_exist_ok=True)
     
-    # Копіюємо корінні файли
-    for rf in ['Logo.png', 'favicon-32x32.png', 'manifest.json']:
-        if os.path.exists(rf): shutil.copy(rf, f'dist/{rf}')
+    for file in ['Logo.png', 'favicon-32x32.png', 'manifest.json']:
+        if os.path.exists(file):
+            shutil.copy(file, f'dist/{file}')
 
-    # 3. Генеруємо сторінки через шаблони (як ми робили раніше)
-    layout = open('templates/layout.html', 'r', encoding='utf-8').read()
-    index_body = open('templates/index_body.html', 'r', encoding='utf-8').read()
-    page_tpl = open('templates/page.html', 'r', encoding='utf-8').read()
-
-    languages = [f.replace('.json', '') for f in os.listdir('i18n') if f.endswith('.json')]
-
-    for lang in languages:
-        lang_dir = f'dist/{lang}'
-        os.makedirs(lang_dir, exist_ok=True)
+    # 6. ГЕНЕРАЦІЯ HTML СТОРІНОК (Layout + Index)
+    # Завантажуємо шаблони
+    try:
+        layout = open('templates/layout.html', 'r', encoding='utf-8').read()
+        index_body = open('templates/index_body.html', 'r', encoding='utf-8').read()
         
-        # Головна
-        index_html = layout.replace('{{ content }}', index_body)
-        with open(f'{lang_dir}/index.html', 'w', encoding='utf-8') as f:
-            f.write(index_html)
+        for lang in available_langs:
+            lang_dir = os.path.join('dist', lang)
+            os.makedirs(lang_dir, exist_ok=True)
+            
+            # Створюємо головну сторінку для кожної мови
+            full_index = layout.replace('{{ content }}', index_body)
+            with open(os.path.join(lang_dir, 'index.html'), 'w', encoding='utf-8') as f:
+                f.write(full_index)
 
-        # Сторінки інструкцій
-        for s in all_services:
-            content_path = f'content/{lang}/{s["id"]}.json'
-            if os.path.exists(content_path):
-                with open(content_path, 'r', encoding='utf-8') as f_in:
-                    c = json.load(f_in)
-                
-                steps_html = "".join([f"<li>{step}</li>" for step in c['steps']])
-                pg = page_tpl.replace('{{ title }}', c['title']) \
-                             .replace('{{ description }}', c['description']) \
-                             .replace('{{ steps }}', steps_html) \
-                             .replace('{{ cancel_url }}', s['official_cancel_url']) \
-                             .replace('{{ seo_text }}', c.get('seo_text', ''))
-                
-                full_pg = layout.replace('{{ content }}', pg)
-                s_dir = f'{lang_dir}/{s["id"]}'
-                os.makedirs(s_dir, exist_ok=True)
-                with open(f'{s_dir}/index.html', 'w', encoding='utf-8') as f_out:
-                    f_out.write(full_pg)
+            # Тут можна додати генерацію сторінок окремих сервісів (якщо треба)
+            
+    except Exception as e:
+        print(f"Помилка генерації HTML: {e}")
 
-    # Редірект у корені
+    # 7. РЕДІРЕКТ У КОРЕНІ (щоб при вході кидало на /ua/)
     with open('dist/index.html', 'w', encoding='utf-8') as f:
-        f.write(f"<html><script>window.location.href='{BASE_PATH}/ua/'</script></html>")
+        f.write(f'<html><head><meta http-equiv="refresh" content="0; url={BASE_PATH}/ua/"></head></html>')
 
-build()
+    print(f"Build complete! Services: {len(all_services)}, Languages: {available_langs}")
+
+if __name__ == "__main__":
+    build()
             
