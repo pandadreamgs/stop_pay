@@ -3,6 +3,28 @@ let totalSavedUsd = 0;
 const BASE_URL = "/stop_pay"; 
 const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbywfH00K-KVqfhkPQwWy4P2Knaa0hS1KP1TD6zDfn2K9Bd31Td1pPRxGRj5t1Xt7j1voQ/exec"; 
 
+// --- ПОШУК (Миємо старий стиль пошуку) ---
+function handleSearch(query) {
+    const q = query.toLowerCase().trim();
+    const categories = document.querySelectorAll('.category-wrapper');
+    
+    categories.forEach(wrapper => {
+        let hasVisibleCards = false;
+        const cards = wrapper.querySelectorAll('.card');
+        
+        cards.forEach(card => {
+            const name = card.querySelector('.card-name').innerText.toLowerCase();
+            if (name.includes(q)) {
+                card.style.display = 'flex';
+                hasVisibleCards = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        wrapper.style.display = hasVisibleCards ? 'block' : 'none';
+    });
+}
+
 // --- ЛІЧИЛЬНИК ---
 async function syncGlobalCounter(amountUsd = 0) {
     if (!BRIDGE_URL) return;
@@ -31,44 +53,31 @@ function updateCounterDisplay() {
     if (currencyEl) currencyEl.innerText = siteData.ui.currency_symbol;
 }
 
-function filterServices() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.card');
-    const wrappers = document.querySelectorAll('.category-wrapper');
-
-    cards.forEach(card => {
-        const name = card.querySelector('.card-name').innerText.toLowerCase();
-        // Якщо ім'я містить запит — показуємо, якщо ні — приховуємо
-        card.style.display = name.includes(query) ? 'flex' : 'none';
-    });
-
-    // Ховаємо заголовки категорій, якщо в них немає жодної видимої картки
-    wrappers.forEach(wrapper => {
-        const hasVisibleCards = Array.from(wrapper.querySelectorAll('.card'))
-                                     .some(c => c.style.display !== 'none');
-        wrapper.style.display = hasVisibleCards ? 'block' : 'none';
-    });
-}
-
-// --- РЕНДЕРИНГ ---
+// --- РЕНДЕРИНГ (Повертаємо стильні картки) ---
 function renderSite() {
     if (!siteData || !siteData.ui) return;
     const info = siteData.ui;
     const container = document.getElementById('siteContent');
     if (!container) return; 
-    
+
     container.innerHTML = '';
     const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
     
+    // Тексти інтерфейсу
     safeSet('counterLabel', info.total_saved);
+    safeSet('mainDesc', info.desc);
     safeSet('donateTitle', info.ui.donate_t);
     safeSet('donateDesc', info.ui.donate_d);
     safeSet('donateBtn', info.ui.donate_b);
     
     const seoEl = document.getElementById('seoContent');
     if (seoEl) seoEl.innerHTML = info.seo_text || '';
-    if (document.getElementById('searchInput')) {
-        document.getElementById('searchInput').placeholder = info.ui.search_placeholder;
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.placeholder = info.ui.search_placeholder;
+        // Прив'язуємо функцію пошуку до інпута
+        searchInput.oninput = (e) => handleSearch(e.target.value);
     }
 
     updateCounterDisplay();
@@ -98,7 +107,9 @@ function renderSite() {
             <div class="category-content">
                 ${groups[key].map(s => `
                     <div class="card" onclick="handleServiceClick(${s.price || 0}, '${s.id}')">
-                        <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
+                        <div class="card-icon-wrapper">
+                            <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
+                        </div>
                         <div class="card-name">${s.name}</div>
                     </div>`).join('')}
             </div>`;
@@ -131,7 +142,6 @@ async function loadData() {
             ui: uiData,
             services: allServices.services,
             currentLang: langCode,
-            // Додаємо список доступних країн вручну, поки немає окремого файлу
             availableCountries: {
                 "ua": { label: "Україна", short: "UA" },
                 "us": { label: "United States", short: "US" }
@@ -170,7 +180,7 @@ function updateVisuals(code) {
     if (short) short.innerText = code.toUpperCase();
 }
 
-// Допоміжні функції
+// Меню та Тема
 function toggleMenu() { document.getElementById('dropdownList').classList.toggle('active'); }
 function toggleTheme() {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
