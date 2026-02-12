@@ -9,6 +9,16 @@ const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbywfH00K-KVqfhkPQwWy
 async function loadData() {
     try {
         const path = window.location.pathname;
+        const isRoot = path === BASE_URL + '/' || path === BASE_URL || path === '/';
+
+        // 1. ПРІОРИТЕТ: Якщо ми в корені — перевіряємо пам'ять
+        if (isRoot) {
+            const savedLang = localStorage.getItem('user_lang');
+            if (savedLang) {
+                window.location.href = `${BASE_URL}/${savedLang}/`;
+                return; 
+            }
+        }
         
         let langCode = 'ua'; 
         if (path.includes('/us/')) langCode = 'us';
@@ -28,9 +38,8 @@ async function loadData() {
         };
 
         applyTheme();
-        autoDetectRegion();
+        autoDetectRegion(); 
         await initDynamicMenu(); 
-        
         fillStaticTranslations();
         
         if (document.getElementById('siteContent')) {
@@ -49,28 +58,22 @@ async function loadData() {
 // ПЕРЕКЛАД СТАТИЧНИХ ЕЛЕМЕНТІВ
 function fillStaticTranslations() {
     if (!siteData || !siteData.ui) return;
-    const info = siteData.ui; // Це весь ваш JSON
+    const info = siteData.ui;
     
     const safeSet = (id, val) => { 
         const el = document.getElementById(id); 
         if (el && val) el.innerText = val; 
     };
 
-    // Основні тексти (корінь JSON)
     safeSet('counterLabel', info.total_saved);
     safeSet('mainDesc', info.desc);
 
-    // ФУТЕР (Шукаємо всередині об'єкта info.ui, бо в JSON вони там)
     if (info.ui) {
-        // Якщо в JSON написано "Створено PandaDream...", ми вставимо це в блок footerCreated
         safeSet('footerCreated', info.ui.footer_created);
         safeSet('footerSlogan', info.ui.footer_slogan);
-        
-        // Інші елементи інтерфейсу
         safeSet('donateTitle', info.ui.donate_t);
         safeSet('donateDesc', info.ui.donate_d);
         safeSet('donateBtn', info.ui.donate_b);
-        
         safeSet('modalTitle', info.ui.feedback_title);
         safeSet('modalDesc', info.ui.feedback_desc);
         
@@ -91,14 +94,6 @@ function autoDetectRegion() {
     const isRoot = path === BASE_URL + '/' || path === BASE_URL || path === '/';
     if (!isRoot) return;
 
-    // 1. ПРІОРИТЕТ: Якщо користувач раніше сам обрав мову
-    const savedLang = localStorage.getItem('user_lang');
-    if (savedLang) {
-        window.location.href = `${BASE_URL}/${savedLang}/`;
-        return;
-    }
-
-    // 2. Якщо вибору немає — вгадуємо по таймзоні
     if (localStorage.getItem('user_region_set')) return;
 
     try {
@@ -114,6 +109,7 @@ function autoDetectRegion() {
         }
     } catch (e) { console.log("Region detection failed"); }
 }
+
 // ТЕМА
 function applyTheme() {
     const savedTheme = localStorage.getItem('theme');
@@ -121,8 +117,7 @@ function applyTheme() {
         document.documentElement.setAttribute('data-theme', savedTheme);
     } else {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const defaultTheme = prefersDark ? 'dark' : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', defaultTheme);
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
     }
 }
 
@@ -153,8 +148,6 @@ async function initDynamicMenu() {
             
             item.onclick = () => {
                 const newLang = code.toLowerCase();
-                
-                // ЗАПАМ'ЯТОВУЄМО ВИБІР
                 localStorage.setItem('user_region_set', 'true');
                 localStorage.setItem('user_lang', newLang); 
 
@@ -181,35 +174,19 @@ async function initDynamicMenu() {
     }
 }
 
-// ПОШУК
+// ПОШУК, РЕНДЕР ТА ІНШЕ
 function handleSearch(query) {
     const q = query.toLowerCase().trim();
     const container = document.getElementById('siteContent');
     if (!container || !siteData) return;
-
     if (q === "") { renderSite(); return; }
-
-    const results = siteData.services.filter(s => 
-        (s.name && s.name.toLowerCase().includes(q)) || 
-        (s.id && s.id.toLowerCase().includes(q))
-    );
-
+    const results = siteData.services.filter(s => (s.name && s.name.toLowerCase().includes(q)) || (s.id && s.id.toLowerCase().includes(q)));
     container.innerHTML = '';
     if (results.length > 0) {
         const wrapper = document.createElement('div');
         wrapper.className = 'category-wrapper active';
         const searchTitle = siteData.ui.ui?.search_results || "Search Results";
-        wrapper.innerHTML = `
-            <div class="category-header"><span>${searchTitle} (${results.length})</span></div>
-            <div class="category-content" style="display: grid;">
-                ${results.map(s => `
-                    <div class="card" onclick="handleServiceClick('${s.id}')">
-                        <div class="card-icon-wrapper">
-                            <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
-                        </div>
-                        <div class="card-name">${s.name}</div>
-                    </div>`).join('')}
-            </div>`;
+        wrapper.innerHTML = `<div class="category-header"><span>${searchTitle} (${results.length})</span></div><div class="category-content" style="display: grid;">${results.map(s => `<div class="card" onclick="handleServiceClick('${s.id}')"><div class="card-icon-wrapper"><img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'"></div><div class="card-name">${s.name}</div></div>`).join('')}</div>`;
         container.appendChild(wrapper);
     } else {
         const noFoundText = siteData.ui.ui?.search_not_found || "Nothing found";
@@ -217,16 +194,13 @@ function handleSearch(query) {
     }
 }
 
-// РЕНДЕР ГОЛОВНОЇ
 function renderSite() {
     const container = document.getElementById('siteContent');
     if (!container || !siteData || !siteData.ui) return;
     container.innerHTML = '';
-
     const info = siteData.ui;
     const groups = { 'local': [] };
     const curLang = siteData.currentLang.toLowerCase();
-
     siteData.services.forEach(s => {
         const sType = (s.type || 'global').toLowerCase();
         if (sType === 'global' || sType === curLang) {
@@ -235,44 +209,24 @@ function renderSite() {
             groups[type].push(s);
         }
     });
-
     Object.keys(groups).sort((a, b) => a === 'local' ? -1 : 1).forEach(key => {
         if (groups[key].length === 0) return;
         const wrapper = document.createElement('div');
         wrapper.className = `category-wrapper ${key === 'local' ? 'active' : ''}`;
         const catTitle = (info.categories && info.categories[key]) ? info.categories[key] : key.toUpperCase();
-        wrapper.innerHTML = `
-            <div class="category-header" onclick="this.parentElement.classList.toggle('active')">
-                <span>${catTitle} (${groups[key].length})</span>
-                <span class="arrow-cat">▼</span>
-            </div>
-            <div class="category-content">
-                ${groups[key].map(s => `
-                    <div class="card" onclick="handleServiceClick('${s.id}')">
-                        <div class="card-icon-wrapper">
-                            <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
-                        </div>
-                        <div class="card-name">${s.name}</div>
-                    </div>`).join('')}
-            </div>`;
+        wrapper.innerHTML = `<div class="category-header" onclick="this.parentElement.classList.toggle('active')"><span>${catTitle} (${groups[key].length})</span><span class="arrow-cat">▼</span></div><div class="category-content">${groups[key].map(s => `<div class="card" onclick="handleServiceClick('${s.id}')"><div class="card-icon-wrapper"><img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'"></div><div class="card-name">${s.name}</div></div>`).join('')}</div>`;
         container.appendChild(wrapper);
     });
     updateCounterDisplay();
 }
 
-function handleServiceClick(serviceId) {
-    window.location.href = `${BASE_URL}/${siteData.currentLang}/${serviceId}/`;
-}
+function handleServiceClick(serviceId) { window.location.href = `${BASE_URL}/${siteData.currentLang}/${serviceId}/`; }
 
-// ЛІЧИЛЬНИК
 async function syncGlobalCounter() {
     try {
         const res = await fetch(BRIDGE_URL);
         const data = await res.json();
-        if (data && data.total_saved_usd) {
-            totalSavedUsd = data.total_saved_usd;
-            updateCounterDisplay();
-        }
+        if (data && data.total_saved_usd) { totalSavedUsd = data.total_saved_usd; updateCounterDisplay(); }
     } catch (e) { }
 }
 
