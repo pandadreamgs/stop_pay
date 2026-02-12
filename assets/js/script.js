@@ -49,28 +49,31 @@ async function loadData() {
 // ПЕРЕКЛАД СТАТИЧНИХ ЕЛЕМЕНТІВ
 function fillStaticTranslations() {
     if (!siteData || !siteData.ui) return;
-    const info = siteData.ui;
+    const info = siteData.ui; // Це весь ваш JSON
     
     const safeSet = (id, val) => { 
         const el = document.getElementById(id); 
         if (el && val) el.innerText = val; 
     };
 
-    // Основні тексти
+    // Основні тексти (корінь JSON)
     safeSet('counterLabel', info.total_saved);
     safeSet('mainDesc', info.desc);
 
-    // ФУТЕР (Тут ми додаємо слоган)
-    safeSet('footerCreated', info.footer_created);
-    safeSet('footerSlogan', info.footer_slogan); // <--- Береться з вашого JSON
-    
+    // ФУТЕР (Шукаємо всередині об'єкта info.ui, бо в JSON вони там)
     if (info.ui) {
+        // Якщо в JSON написано "Створено PandaDream...", ми вставимо це в блок footerCreated
+        safeSet('footerCreated', info.ui.footer_created);
+        safeSet('footerSlogan', info.ui.footer_slogan);
+        
+        // Інші елементи інтерфейсу
         safeSet('donateTitle', info.ui.donate_t);
         safeSet('donateDesc', info.ui.donate_d);
         safeSet('donateBtn', info.ui.donate_b);
         
         safeSet('modalTitle', info.ui.feedback_title);
         safeSet('modalDesc', info.ui.feedback_desc);
+        
         const mb = document.getElementById('modalBtn');
         if (mb) mb.innerText = info.ui.feedback_btn;
 
