@@ -110,50 +110,43 @@ function renderSite() {
                         <div class="card-icon-wrapper">
                             <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
                         </div>
-                        <div class="card-name">${s.name}</div>
-                    </div>`).join('')}
-            </div>`;
-        container.appendChild(wrapper);
-    });
-}
-
-function handleServiceClick(price, serviceId) {
-    localStorage.setItem('pendingPrice', price);
-    const lang = (siteData.currentLang || 'ua').toLowerCase();
-    window.location.href = `${BASE_URL}/${lang}/${serviceId}/`;
-}
-
-// --- СИСТЕМНІ ФУНКЦІЇ ---
 async function loadData() {
     try {
         const pathParts = window.location.pathname.split('/');
-        const langInPath = pathParts.includes('stop_pay') ? pathParts[pathParts.indexOf('stop_pay') + 1] : pathParts[1];
-        const langCode = (langInPath || 'ua').toLowerCase();
+        // Визначаємо мову з URL (напр. /stop_pay/ua/ -> ua)
+        let langCode = 'ua';
+        if (pathParts.includes('ua')) langCode = 'ua';
+        if (pathParts.includes('us')) langCode = 'us';
 
+        console.log("Loading for lang:", langCode);
+
+        // Завантажуємо дані паралельно
         const [uiRes, servRes] = await Promise.all([
             fetch(`${BASE_URL}/i18n/${langCode}.json`),
             fetch(`${BASE_URL}/data.json`)
         ]);
 
         const uiData = await uiRes.json();
-        const allServices = await servRes.json();
+        const allData = await servRes.json();
 
+        // Формуємо об'єкт так, щоб renderSite його розумів
         siteData = {
             ui: uiData,
-            services: allServices.services,
-            currentLang: langCode,
-            availableCountries: {
-                "ua": { label: "Україна", short: "UA" },
-                "us": { label: "United States", short: "US" }
-            }
+            services: allData.services,
+            currentLang: langCode
         };
 
+        console.log("Data loaded successfully:", siteData);
+
         applySavedSettings();
-        initCustomMenu();
-        renderSite();
+        renderSite(); // МАЄ З'ЯВИТИСЯ ТУТ!
         syncGlobalCounter();
-    } catch (e) { console.error("Load error:", e); }
+        
+    } catch (e) { 
+        console.error("КРИТИЧНА ПОМИЛКА ЗАВАНТАЖЕННЯ:", e); 
+    }
 }
+
 
 function initCustomMenu() {
     const list = document.getElementById('dropdownList');
