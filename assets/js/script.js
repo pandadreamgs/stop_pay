@@ -9,9 +9,18 @@ const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbywfH00K-KVqfhkPQwWy
 async function loadData() {
     try {
         const path = window.location.pathname;
-        let langCode = path.includes('/us/') ? 'us' : 'ua';
+        
+        // Визначення поточної мови/країни з URL
+        let langCode = 'ua'; // Дефолт
+        const urlParts = path.split('/');
+        // Шукаємо код мови в URL (наприклад, /ua/ або /us/)
+        if (path.includes('/us/')) langCode = 'us';
+        else if (path.includes('/ua/')) langCode = 'ua';
+        else if (path.includes('/gb/')) langCode = 'gb'; // Для майбутніх країн
+
         const ts = Date.now();
 
+        // Завантаження даних
         const servRes = await fetch(`${BASE_URL}/data.json?v=${ts}`).then(r => r.json());
         const uiRes = await fetch(`${BASE_URL}/i18n/${langCode}.json?v=${ts}`).then(r => r.json());
 
@@ -22,7 +31,8 @@ async function loadData() {
             currentLang: langCode
         };
 
-        applySavedSettings();
+        applyTheme(); // Автовизначення теми
+        autoDetectRegion(); // Перевірка редіректу по регіону (тільки для головної)
         await initDynamicMenu(); 
         renderSite();
         syncGlobalCounter();
@@ -32,6 +42,56 @@ async function loadData() {
         const cont = document.getElementById('siteContent');
         if (cont) cont.innerHTML = `<div style="text-align:center; padding:50px; color:red;">Error loading data</div>`;
     }
+}
+
+// --- АВТОВИЗНАЧЕННЯ РЕГІОНУ (КРАЇНИ) ---
+function autoDetectRegion() {
+    // Робимо редірект тільки якщо ми в корені сайту "/" або "/stop_pay/"
+    const path = window.location.pathname;
+    const isRoot = path === BASE_URL + '/' || path === BASE_URL || path === '/';
+    
+    if (!isRoot) return;
+
+    // Перевіряємо, чи користувач вже вручну не обирав країну раніше
+    if (localStorage.getItem('user_region_set')) return;
+
+    try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        let detectedLang = 'ua';
+
+        if (tz.includes('America')) detectedLang = 'us';
+        else if (tz.includes('London') || tz.includes('Europe/London')) detectedLang = 'gb';
+        else if (tz.includes('Kyiv')) detectedLang = 'ua';
+        
+        // Якщо визначена країна відрізняється від поточної (ua за замовчуванням в build.py)
+        if (detectedLang !== 'ua') {
+            localStorage.setItem('user_region_set', 'true');
+            window.location.href = `${BASE_URL}/${detectedLang}/`;
+        }
+    } catch (e) {
+        console.log("Region detection failed, using default");
+    }
+}
+
+// --- КЕРУВАННЯ ТЕМОЮ (АВТОМАТИЧНО) ---
+function applyTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+        // Визначення системної теми
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // За замовчуванням темна (якщо не світла), як і просили
+        const defaultTheme = prefersDark ? 'dark' : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', defaultTheme);
+    }
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
 }
 
 // --- ДИНАМІЧНЕ МЕНЮ КРАЇН ---
@@ -54,12 +114,11 @@ async function initDynamicMenu() {
                 <span>${res.label || code.toUpperCase()}</span>
             `;
             
-            // ЛОГІКА РОЗУМНОЇ ЗАМІНИ МОВИ В URL
             item.onclick = () => {
+                localStorage.setItem('user_region_set', 'true'); // Помічаємо ручний вибір
                 const newLang = code.toLowerCase();
                 const currentPath = window.location.pathname;
                 
-                // Розбиваємо шлях, замінюємо стару мову на нову і збираємо назад
                 let pathParts = currentPath.split('/');
                 const langIndex = pathParts.findIndex(part => part === siteData.currentLang);
 
@@ -67,7 +126,6 @@ async function initDynamicMenu() {
                     pathParts[langIndex] = newLang;
                     window.location.href = pathParts.join('/');
                 } else {
-                    // Якщо мови в шляху немає, йдемо в корінь мови
                     window.location.href = `${BASE_URL}/${newLang}/`;
                 }
             };
@@ -214,17 +272,7 @@ function updateCounterDisplay() {
     if (curEl) curEl.innerText = siteData.ui.currency_symbol || '$';
 }
 
-// Меню та Тема
 function toggleMenu() { document.getElementById('dropdownList').classList.toggle('active'); }
-function toggleTheme() {
-    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-}
-function applySavedSettings() {
-    const theme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-}
 function toggleModal() { document.getElementById('feedbackModal').classList.toggle('active'); }
 function closeModalOutside(e) { if (e.target.id === 'feedbackModal') toggleModal(); }
 
@@ -243,4 +291,3 @@ async function sendToAi() {
 }
 
 loadData();
-    
