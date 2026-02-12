@@ -1,7 +1,7 @@
 let siteData = null;
 let totalSavedUsd = 0;
 
-// АВТО-ВИЗНАЧЕННЯ BASE_URL (для GitHub Pages)
+// Визначаємо шлях для GitHub Pages
 const isGithub = window.location.hostname.includes('github.io');
 const BASE_URL = isGithub ? '/stop_pay' : ''; 
 
@@ -16,29 +16,24 @@ const COUNTRIES = {
 async function loadData() {
     try {
         const path = window.location.pathname;
-        let langCode = 'ua'; // Дефолт
+        let langCode = 'ua'; 
         
-        // Визначаємо мову з URL
         if (path.includes('/us/')) langCode = 'us';
         else if (path.includes('/ua/')) langCode = 'ua';
 
-        console.log("Fetching from:", `${BASE_URL}/i18n/${langCode}.json`);
-
-        // Завантажуємо JSON-файли
+        // Додаємо timestamp щоб GitHub не кешував старі дані
+        const ts = Date.now();
         const [uiRes, servRes] = await Promise.all([
-            fetch(`${BASE_URL}/i18n/${langCode}.json`).then(r => {
-                if (!r.ok) throw new Error(`UI JSON 404: ${r.url}`);
-                return r.json();
-            }),
-            fetch(`${BASE_URL}/data.json`).then(r => {
-                if (!r.ok) throw new Error(`Data JSON 404: ${r.url}`);
-                return r.json();
-            })
+            fetch(`${BASE_URL}/i18n/${langCode}.json?v=${ts}`).then(r => r.json()),
+            fetch(`${BASE_URL}/data.json?v=${ts}`).then(r => r.json())
         ]);
+
+        // Перевіряємо чи є сервіси (якщо build.py ще не спрацював, ставимо пустий масив)
+        const services = servRes.services || [];
 
         siteData = {
             ui: uiRes,
-            services: servRes.services,
+            services: services,
             currentLang: langCode
         };
 
@@ -50,15 +45,14 @@ async function loadData() {
     } catch (e) { 
         console.error("КРИТИЧНА ПОМИЛКА:", e); 
         const cont = document.getElementById('siteContent');
-        if (cont) cont.innerHTML = `<div style="text-align:center; padding:50px; color:red;">
-            <h3>Помилка завантаження</h3>
+        if (cont) cont.innerHTML = `<div style="text-align:center; padding:50px; color:#ff4757;">
+            <h3>Помилка завантаження даних</h3>
             <p>${e.message}</p>
-            <small>Перевірте, чи є файли в папці /dist/</small>
         </div>`;
     }
 }
 
-// --- РЕНДЕР КАРТОК ---
+// --- РЕНДЕР САЙТУ ---
 function renderSite() {
     const container = document.getElementById('siteContent');
     if (!container || !siteData || !siteData.ui) return;
@@ -66,40 +60,47 @@ function renderSite() {
     container.innerHTML = '';
     const info = siteData.ui;
     
-    // Тексти інтерфейсу
+    // Оновлюємо тексти з i18n файлу
     const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+    
     safeSet('counterLabel', info.total_saved);
     safeSet('mainDesc', info.desc);
-    safeSet('donateTitle', info.ui.donate_t);
-    safeSet('donateDesc', info.ui.donate_d);
-    safeSet('donateBtn', info.ui.donate_b);
+    
+    // Тексти з вкладеного об'єкта UI (як у твоєму JSON)
+    if (info.ui) {
+        safeSet('donateTitle', info.ui.donate_t);
+        safeSet('donateDesc', info.ui.donate_d);
+        safeSet('donateBtn', info.ui.donate_b);
+        
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.placeholder = info.ui.search_placeholder;
+    }
     
     const seoEl = document.getElementById('seoContent');
     if (seoEl) seoEl.innerHTML = info.seo_text || '';
-    
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.placeholder = info.ui.search_placeholder;
 
-    // Групування
+    // Групування сервісів
     const groups = { 'local': [] };
     const currentCountry = siteData.currentLang.toLowerCase();
 
-    siteData.services.forEach(s => {
-        const sType = (s.type || 'global').toLowerCase();
-        if (sType === 'global' || sType === currentCountry) {
-            const type = sType === currentCountry ? 'local' : (s.category || 'other');
-            if (!groups[type]) groups[type] = [];
-            groups[type].push(s);
-        }
-    });
+    if (Array.isArray(siteData.services)) {
+        siteData.services.forEach(s => {
+            const sType = (s.type || 'global').toLowerCase();
+            if (sType === 'global' || sType === currentCountry) {
+                const type = sType === currentCountry ? 'local' : (s.category || 'other');
+                if (!groups[type]) groups[type] = [];
+                groups[type].push(s);
+            }
+        });
+    }
 
-    // Малювання
+    // Рендер категорій
     Object.keys(groups).sort((a, b) => a === 'local' ? -1 : 1).forEach(key => {
         if (groups[key].length === 0) return;
         
         const wrapper = document.createElement('div');
         wrapper.className = `category-wrapper ${key === 'local' ? 'active' : ''}`;
-        const catTitle = info.categories[key] || key.toUpperCase();
+        const catTitle = (info.categories && info.categories[key]) ? info.categories[key] : key.toUpperCase();
 
         wrapper.innerHTML = `
             <div class="category-header" onclick="this.parentElement.classList.toggle('active')">
@@ -125,7 +126,7 @@ function handleServiceClick(serviceId) {
     window.location.href = `${BASE_URL}/${siteData.currentLang}/${serviceId}/`;
 }
 
-// --- ІНШІ ФУНКЦІЇ (ПОШУК, ТЕМА, МЕНЮ) ---
+// --- ПОШУК ---
 function handleSearch(query) {
     const q = query.toLowerCase().trim();
     document.querySelectorAll('.category-wrapper').forEach(wrapper => {
@@ -140,6 +141,7 @@ function handleSearch(query) {
     });
 }
 
+// --- ЛІЧИЛЬНИК ---
 async function syncGlobalCounter() {
     try {
         const res = await fetch(BRIDGE_URL);
@@ -153,13 +155,14 @@ async function syncGlobalCounter() {
 
 function updateCounterDisplay() {
     if (!siteData || !siteData.ui) return;
-    const rate = siteData.ui.exchange_rate || 1;
+    const rate = siteData.exchange_rate || 1;
     const cEl = document.getElementById('moneyCounter');
     const curEl = document.getElementById('currency');
     if (cEl) cEl.innerText = Math.round(totalSavedUsd * rate).toLocaleString();
-    if (curEl) curEl.innerText = siteData.ui.currency_symbol;
+    if (curEl) curEl.innerText = siteData.ui.currency_symbol || '$';
 }
 
+// --- МЕНЮ ТА ТЕМА ---
 function initCustomMenu() {
     const list = document.getElementById('dropdownList');
     if (!list) return;
@@ -191,6 +194,8 @@ function applySavedSettings() {
     const theme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', theme);
 }
+
+// --- AI МОДАЛКА ---
 function toggleModal() { document.getElementById('feedbackModal').classList.toggle('active'); }
 function closeModalOutside(e) { if (e.target.id === 'feedbackModal') toggleModal(); }
 
@@ -202,10 +207,11 @@ async function sendToAi() {
     btn.disabled = true; btn.innerText = "...";
     try {
         await fetch(`${BRIDGE_URL}?service=${encodeURIComponent(name)}`, { mode: 'no-cors' });
-        alert("Done!"); toggleModal(); input.value = "";
+        alert("Success!"); toggleModal(); input.value = "";
     } catch (e) { alert("Error"); }
-    finally { btn.disabled = false; btn.innerText = "Send"; }
+    finally { btn.disabled = false; btn.innerText = siteData.ui.feedback_btn; }
 }
 
+// Старт
 loadData();
-        
+                                             
