@@ -1,1 +1,19 @@
-<html><head><meta http-equiv="refresh" content="0; url=/stop_pay/ua/"></head></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        (function() {
+            var savedLang = localStorage.getItem('user_lang');
+            var root = "/stop_pay";
+            if (savedLang && savedLang !== 'ua') {
+                window.location.replace(root + '/' + savedLang + '/');
+            } else {
+                window.location.replace(root + '/ua/');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
