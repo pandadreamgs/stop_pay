@@ -4,17 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StopPay</title>
-    
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#ff4757">
-
-    <script>
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    </script>
-
+    <link rel="icon" type="image/png" href="/stop_pay/favicon-32x32.png" sizes="32x32">
     <link rel="stylesheet" href="/stop_pay/assets/css/style.css">
 </head>
 <body>
@@ -23,7 +13,7 @@
     <div class="custom-select" id="langSelector" translate="no">
         <div class="select-btn" onclick="toggleMenu()">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <img src="" id="currentFlag" class="flag-icon" style="width:20px; height:15px; object-fit:cover;">
+                <img src="" id="currentFlag" class="flag-icon">
                 <span id="currentShort">UA</span>
             </div>
             <span class="arrow">▼</span>
@@ -41,11 +31,19 @@
     </div>
 
     <h1 id="mainTitle">
-        <a href="/">
+        <a href="/stop_pay/">
             <img src="/stop_pay/Logo.png" alt="StopPay" style="height: 50px; width: auto;">
         </a>
     </h1>
     
+    <p id="mainDesc" style="opacity: 0.8; margin-bottom: 25px;"></p>
+
+    <div class="search-container">
+        <input type="search" id="searchInput" oninput="handleSearch(this.value)">
+    </div>
+</header>
+
+<main id="mainContent">
     
                     <div class="service-container">
                         <h2>Як відписатися від Megogo: покрокова інструкція</h2>
@@ -56,39 +54,32 @@
                         <div class="seo-block">Скасування підписки Megogo дозволяє зберегти ваші кошти, якщо ви більше не плануєте користуватися сервісом. Пам'ятайте, що доступ до контенту зазвичай зберігається до кінця вже оплаченого періоду.</div>
                     </div>
                     
-
-</header>
+</main>
 
 <div class="donate-section">
-    <h3 id="donateTitle">Support Project</h3>
-    <p id="donateDesc">Допоможіть нам розвиватися далі.</p>
-    <a href="https://www.buymeacoffee.com/ВАШ_НІК" class="btn-donate" id="donateBtn" target="_blank">☕ Buy Me a Coffee</a>
+    <h3 id="donateTitle"></h3>
+    <p id="donateDesc"></p>
+    <a href="#" class="btn-donate" id="donateBtn" target="_blank">☕ Buy Me a Coffee</a>
 </div>
 
 <div id="seoContent" class="seo-block"></div>
 
-<div class="fab-btn" onclick="toggleModal()" title="Add service">
+<div class="fab-btn" onclick="toggleModal()">
     <span class="fab-icon">+</span>
 </div>
 
 <div class="modal-overlay" id="feedbackModal" onclick="closeModalOutside(event)">
     <div class="modal-content">
-        <span class="close-modal" onclick="toggleModal()" style="position:absolute; right:15px; top:10px; cursor:pointer;">✕</span>
         <h3 id="modalTitle">Додати сервіс</h3>
-        <p id="modalDesc">Напишіть назву сервісу, і наш AI підготує інструкцію.</p>
-        <input type="text" id="aiServiceInput" class="modal-input" placeholder="Наприклад: Netflix" required>
-        <button type="button" class="modal-btn" id="modalBtn" onclick="sendToAi()">Надіслати</button>
+        <p id="modalDesc">Напишіть назву, і ми додамо його.</p>
+        <input type="text" id="aiServiceInput" class="modal-input">
+        <button class="modal-btn" id="modalBtn" onclick="sendToAi()">Надіслати</button>
     </div>
 </div>
 
-<footer>
-    <p>
-        <span id="footerCreated">Created by</span> 
-        <strong style="color: #ff4757;">PandaDream Game Studio</strong> 🐼
-    </p>
-    <p id="footerSlogan" style="opacity: 0.5; font-size: 0.75rem; font-style: italic; margin-top: 5px;">
-        Small tools, big dreams.
-    </p>
+<footer style="text-align: center; padding: 40px 20px; opacity: 0.6; font-size: 0.9rem;">
+    <p><span id="footerCreated">Created by</span> <strong>PandaDream Game Studio</strong> 🐼</p>
+    <p id="footerSlogan" style="font-style: italic; font-size: 0.8rem;"></p>
 </footer>
 
 <script src="/stop_pay/assets/js/script.js"></script>
