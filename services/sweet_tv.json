@@ -1,0 +1,9 @@
+{
+  "id": "sweet_tv",
+  "name": "Sweet.tv",
+  "category": "tv",
+  "type": "ua",
+  "official_url": "https://megogo.net",
+  "official_cancel_url": "https://megogo.net/ua/cabinet/subscription",
+  "icon": "assets/icons/sweet-tv.png"
+}
