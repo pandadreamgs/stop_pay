@@ -31,6 +31,25 @@ function updateCounterDisplay() {
     if (currencyEl) currencyEl.innerText = siteData.ui.currency_symbol;
 }
 
+function filterServices() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    const wrappers = document.querySelectorAll('.category-wrapper');
+
+    cards.forEach(card => {
+        const name = card.querySelector('.card-name').innerText.toLowerCase();
+        // Якщо ім'я містить запит — показуємо, якщо ні — приховуємо
+        card.style.display = name.includes(query) ? 'flex' : 'none';
+    });
+
+    // Ховаємо заголовки категорій, якщо в них немає жодної видимої картки
+    wrappers.forEach(wrapper => {
+        const hasVisibleCards = Array.from(wrapper.querySelectorAll('.card'))
+                                     .some(c => c.style.display !== 'none');
+        wrapper.style.display = hasVisibleCards ? 'block' : 'none';
+    });
+}
+
 // --- РЕНДЕРИНГ ---
 function renderSite() {
     if (!siteData || !siteData.ui) return;
