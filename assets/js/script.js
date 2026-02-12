@@ -54,7 +54,24 @@ async function initDynamicMenu() {
                 <span>${res.label || code.toUpperCase()}</span>
             `;
             
-            item.onclick = () => { window.location.href = `${BASE_URL}/${code.toLowerCase()}/`; };
+            // ЛОГІКА РОЗУМНОЇ ЗАМІНИ МОВИ В URL
+            item.onclick = () => {
+                const newLang = code.toLowerCase();
+                const currentPath = window.location.pathname;
+                
+                // Розбиваємо шлях, замінюємо стару мову на нову і збираємо назад
+                let pathParts = currentPath.split('/');
+                const langIndex = pathParts.findIndex(part => part === siteData.currentLang);
+
+                if (langIndex !== -1) {
+                    pathParts[langIndex] = newLang;
+                    window.location.href = pathParts.join('/');
+                } else {
+                    // Якщо мови в шляху немає, йдемо в корінь мови
+                    window.location.href = `${BASE_URL}/${newLang}/`;
+                }
+            };
+
             list.appendChild(item);
 
             if (code === siteData.currentLang) {
@@ -226,3 +243,4 @@ async function sendToAi() {
 }
 
 loadData();
+    
