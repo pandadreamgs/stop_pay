@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StopPay</title>
-    <link rel="icon" type="image/png" href="/stop_pay/favicon-32x32.png" sizes="32x32">
+    
+    <link rel="icon" type="image/png" href="/stop_pay/assets/favicons/favicon-32x32.png" sizes="32x32">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/stop_pay/assets/favicons/apple-touch-icon.png">
+    
+    <meta name="theme-color" content="#1a1a1a">
+
+    <link rel="manifest" href="/stop_pay/manifest.json">
+
     <link rel="stylesheet" href="/stop_pay/assets/css/style.css">
 </head>
-<body>
+<body data-theme="dark">
 
 <nav>
     <div class="custom-select" id="langSelector" translate="no">
@@ -30,11 +38,11 @@
         <span id="currency">₴</span>
     </div>
 
-    <h1 id="mainTitle">
+    <div id="mainTitle" style="margin-top: 20px;">
         <a href="/stop_pay/">
-            <img src="/stop_pay/Logo.png" alt="StopPay" style="height: 50px; width: auto;">
+            <img src="/stop_pay/Logo.png" alt="StopPay">
         </a>
-    </h1>
+    </div>
 </header>
 
 <main id="mainContent">
@@ -44,7 +52,7 @@
 <div class="donate-section">
     <h3 id="donateTitle"></h3>
     <p id="donateDesc"></p>
-    <a href="https://buymeacoffee.com" class="btn-donate" id="donateBtn" target="_blank">☕ Buy Me a Coffee</a>
+    <a href="https://buymeacoffee.com/pandadream" class="btn-donate" id="donateBtn" target="_blank">☕ Buy Me a Coffee</a>
 </div>
 
 <div id="seoContent" class="seo-block"></div>
@@ -57,17 +65,19 @@
     <div class="modal-content">
         <h3 id="modalTitle">Додати сервіс</h3>
         <p id="modalDesc">Напишіть назву, і ми додамо його.</p>
-        <input type="text" id="aiServiceInput" class="modal-input">
-        <button class="modal-btn" id="modalBtn" onclick="sendToAi()">Надіслати</button>\
+        <input type="text" id="aiServiceInput" class="modal-input" placeholder="Назва сервісу...">
+        <button class="modal-btn" id="modalBtn" onclick="sendToAi()">Надіслати</button>
     </div>
 </div>
 
-<div class="footer-main">
-    <span id="footerCreated"></span> 
-    <span class="brand-name">PandaDream Game Studio</span> 
-    <span class="panda-emoji">🐼</span>
-</div>
-<div id="footerSlogan" class="footer-slogan"></div>
+<footer>
+    <div class="footer-main">
+        <span id="footerCreated">Автор:</span> 
+        <span class="brand-name">PandaDream Game Studio</span> 
+        <span class="panda-emoji">🐼</span>
+    </div>
+    <div id="footerSlogan" class="footer-slogan"></div>
+</footer>
 
 <script src="/stop_pay/assets/js/script.js"></script>
 </body>
