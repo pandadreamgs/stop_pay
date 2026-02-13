@@ -86,6 +86,7 @@ def build():
                                  .replace('{{ description }}', c['description']) \
                                  .replace('{{ steps }}', steps_html) \
                                  .replace('{{ cancel_hint }}', hint_text) \
+                                 .replace('{{ btn_cancel_text }}', lang_data['ui'].get('btn_cancel', 'Cancel Subscription')) \
                                  .replace('{{ cancel_url }}', s['official_cancel_url']) \
                                  .replace('{{ seo_text }}', c.get('seo_text', ''))
                     
