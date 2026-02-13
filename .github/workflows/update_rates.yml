@@ -4,7 +4,7 @@ on:
   schedule:
     # Запуск щонеділі о 00:00 UTC
     - cron: '0 0 * * 0'
-  workflow_dispatch: # Дозволяє запустити вручну кнопкою
+  workflow_dispatch: # Дозволяє запустити вручну
 
 jobs:
   update:
@@ -21,10 +21,19 @@ jobs:
       - name: Run update script
         run: python update_rates.py
 
+      - name: Rebuild Site
+        run: python build.py
+
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "actions@github.com"
-          git add data.json
-          git commit -m "Automated exchange rate update" || echo "No changes to commit"
+          
+          # Додаємо всі змінені JSON файли в i18n та папку dist
+          git add i18n/*.json
+          git add dist/
+          
+          # Комітимо, якщо є зміни. Якщо змін немає, просто виводимо повідомлення.
+          git commit -m "Automated exchange rate update and rebuild" || echo "No changes to commit"
           git push
+          
