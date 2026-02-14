@@ -216,18 +216,45 @@ function autoDetectRegion() {
 async function initDynamicMenu() {
     const list = document.getElementById('dropdownList');
     if (!list || !siteData.availableLanguages) return;
+    
     list.innerHTML = '';
     for (const code of siteData.availableLanguages) {
         try {
             const res = await fetch(`${BASE_URL}/i18n/${code}.json`).then(r => r.json());
             const item = document.createElement('div');
             item.className = 'select-item';
-            item.innerHTML = `<img src="${BASE_URL}/assets/icons/flags/${code.toUpperCase()}.png" class="flag-icon"><span>${res.label || code.toUpperCase()}</span>`;
+            item.innerHTML = `
+                <img src="${BASE_URL}/assets/icons/flags/${code.toUpperCase()}.png" 
+                     onerror="this.src='${BASE_URL}/assets/icons/flags/UNKNOWN.png'" 
+                     class="flag-icon">
+                <span>${res.label || code.toUpperCase()}</span>
+            `;
+            
             item.onclick = () => {
-                localStorage.setItem('user_lang', code.toLowerCase());
-                window.location.href = `${BASE_URL}/${code.toLowerCase()}/`;
+                const newLang = code.toLowerCase();
+                localStorage.setItem('user_region_set', 'true');
+                localStorage.setItem('user_lang', newLang); 
+
+                const currentPath = window.location.pathname;
+                
+                // Розбиваємо шлях на частини
+                // Приклад: /stop_pay/ua/megogo/ -> ["", "stop_pay", "ua", "megogo", ""]
+                let pathParts = currentPath.split('/');
+                
+                // Шукаємо, де в шляху стоїть стара мова (ua, us, gb)
+                const langIndex = pathParts.findIndex(part => part === siteData.currentLang);
+                
+                if (langIndex !== -1) {
+                    // Якщо знайшли — замінюємо тільки цей шматочок
+                    pathParts[langIndex] = newLang;
+                    window.location.href = pathParts.join('/');
+                } else {
+                    // Якщо чомусь не знайшли (наприклад, корінь) — просто йдемо в нову мовну папку
+                    window.location.href = `${BASE_URL}/${newLang}/`;
+                }
             };
             list.appendChild(item);
+
             if (code === siteData.currentLang) {
                 const f = document.getElementById('currentFlag');
                 const s = document.getElementById('currentShort');
