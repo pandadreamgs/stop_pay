@@ -9,7 +9,11 @@
     </div>
 
     <div class="action-section">
-        <a href="{{ cancel_url }}" class="btn-cancel" target="_blank" rel="noopener noreferrer">
+        <a href="{{ cancel_url }}" 
+           class="btn-cancel" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           onclick="handlePriceAdd('{{ price_usd }}', '{{ service_id }}')">
             {{ btn_cancel_text }}
         </a>
         
@@ -18,7 +22,9 @@
         </div>
     </div>
 
+    {% if seo_text %}
     <div class="seo-text">
         {{ seo_text }}
     </div>
+    {% endif %}
 </div>
