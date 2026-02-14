@@ -73,24 +73,24 @@ def build():
                     price = str(s.get('price_usd', 0))
                     sid = s['id']
 
-                    # 1. Посилання в першому кроці (веде на ГОЛОВНУ)
+                    # 1. Посилання в першому кроці (ВЕДЕ НА ГОЛОВНУ)
                     steps = list(c['steps'])
                     if steps:
                         clean_url = s["official_url"].replace("https://", "").replace("http://", "").rstrip('/')
-                        # Клік на головну теж рахуємо як спробу відписки
+                        # Використовуємо одинарні лапки всередині onclick, щоб уникнути конфліктів
                         link_html = f'<a href="{s["official_url"]}" target="_blank" rel="noopener" onclick="handlePriceAdd(\'{price}\', \'{sid}\')">{clean_url}</a>'
                         steps[0] = steps[0].replace(clean_url, link_html)
                     
                     steps_html = "".join([f"<li>{step}</li>" for step in steps])
 
-                    # 2. Посилання в "Пораді" (веде на ГОЛОВНУ, як ти і просив)
-                    # Текст в JSON має містити {{ official_url }}
+                    # 2. Посилання в "Пораді" (ВЕДЕ НА ГОЛОВНУ)
+                    # Формуємо чистий HTML тег для заміни плейсхолдера
                     hint_link = f'<a href="{s["official_url"]}" target="_blank" rel="noopener" onclick="handlePriceAdd(\'{price}\', \'{sid}\')">{s["official_url"]}</a>'
                     hint_text = lang_data.get('cancel_hint', '').replace('{{ official_url }}', hint_link)
                     
                     btn_text = lang_data.get('ui', {}).get('btn_cancel', 'Скасувати підписку')
 
-                    # 3. Підстановка в шаблон (cancel_url тут веде на сторінку скасування для кнопки)
+                    # 3. Підстановка в шаблон (cancel_url ТУТ ВЕДЕ НА СТОРІНКУ СКАСУВАННЯ)
                     pg = page_tpl.replace('{{ title }}', c['title']) \
                                  .replace('{{ price_usd }}', price) \
                                  .replace('{{ service_id }}', sid) \
@@ -135,4 +135,4 @@ def build():
 
 if __name__ == "__main__":
     build()
-    
+                    
