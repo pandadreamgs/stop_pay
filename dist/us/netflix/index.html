@@ -52,23 +52,25 @@
 
     <div class="instruction-card">
         <ol class="steps-list">
-            <li>Open the <a href="https://megogo.net" target="_blank" rel="noopener">megogo.net</a> website and log in to your profile.</li><li>Click on the profile icon in the upper right corner.</li><li>Go to the 'Subscriptions' section.</li><li>Find your active subscription and click the 'Manage' button.</li><li>Select 'Disable automatic renewal' or 'Cancel subscription'.</li><li>Confirm the action in the window that appears.</li>
+            <li>Open the <a href="https://megogo.net" target="_blank" rel="noopener" onclick="handlePriceAdd('7.99', 'netflix')">megogo.net</a> website and log in to your profile.</li><li>Click on the profile icon in the upper right corner.</li><li>Go to the 'Subscriptions' section.</li><li>Find your active subscription and click the 'Manage' button.</li><li>Select 'Disable automatic renewal' or 'Cancel subscription'.</li><li>Confirm the action in the window that appears.</li>
         </ol>
     </div>
 
     <div class="action-section">
-        <a href="https://megogo.net/ua/cabinet/subscription" class="btn-cancel" target="_blank" rel="noopener noreferrer">
+        <a href="https://megogo.net/ua/cabinet/subscription" 
+           class="btn-cancel" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           onclick="handlePriceAdd('7.99', 'netflix')">
             Unsubscribe
         </a>
         
         <div class="link-hint">
-            <p>ℹ️ <b>CUCUMELON:</b> Це пряме посилання на сторінку керування послугами. Якщо воно не працює (сервіси іноді «ховають» ці сторінки), просто перейдіть на <a href="https://megogo.net" target="_blank">головну сторінку</a> та скористайтеся кроками з інструкції вище.</p>
+            <p>ℹ️ <b>CUCUMELON:</b> Це пряме посилання на сторінку керування послугами. Якщо воно не працює (сервіси іноді «ховають» ці сторінки), просто перейдіть на <a href="https://megogo.net" target="_blank" onclick="handlePriceAdd('7.99', 'netflix')">головну сторінку</a> та скористайтеся кроками з інструкції вище.</p>
         </div>
     </div>
 
-    <div class="seo-text">
-        Cancelling your Megogo subscription allows you to save your money if you no longer plan to use the service. Remember that access to content is usually retained until the end of the already paid period.
-    </div>
+    <div class="seo-text">Cancelling your Megogo subscription allows you to save your money if you no longer plan to use the service. Remember that access to content is usually retained until the end of the already paid period.</div>
 </div>
 
 </main>
