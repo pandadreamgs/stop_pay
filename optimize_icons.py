@@ -1,5 +1,7 @@
 import os
-from PIL import Image, ImageOps
+from PIL import Image
+import cairosvg
+import io
 
 # Налаштування
 SOURCE_DIR = 'images'
@@ -12,24 +14,30 @@ def process_icons():
         print(f"Створено папку: {DEST_DIR}")
 
     for filename in os.listdir(SOURCE_DIR):
-        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
+        file_lower = filename.lower()
+        if file_lower.endswith(('.png', '.jpg', '.jpeg', '.webp', '.svg')):
             try:
                 img_path = os.path.join(SOURCE_DIR, filename)
-                img = Image.open(img_path).convert("RGBA")
+                
+                # Спеціальна обробка для SVG
+                if file_lower.endswith('.svg'):
+                    # Конвертуємо SVG в байтовий потік PNG
+                    out = cairosvg.svg2png(url=img_path, output_width=SIZE[0], output_height=SIZE[1])
+                    img = Image.open(io.BytesIO(out)).convert("RGBA")
+                else:
+                    img = Image.open(img_path).convert("RGBA")
 
-                # Робимо картинку квадратною без спотворень (додаємо прозорі боки)
+                # Робимо картинку квадратною без спотворень
                 img.thumbnail(SIZE, Image.Resampling.LANCZOS)
                 
-                # Створюємо порожнє прозоре полотно 128x128
+                # Створюємо прозоре полотно 128x128
                 new_img = Image.new("RGBA", SIZE, (0, 0, 0, 0))
-                # Центруємо іконку на полотні
                 upper_left = (
                     (SIZE[0] - img.size[0]) // 2,
                     (SIZE[1] - img.size[1]) // 2
                 )
                 new_img.paste(img, upper_left)
 
-                # Зберігаємо як PNG
                 base_name = os.path.splitext(filename)[0]
                 save_path = os.path.join(DEST_DIR, f"{base_name}.png")
                 new_img.save(save_path, "PNG", optimize=True)
@@ -43,3 +51,4 @@ if __name__ == "__main__":
         process_icons()
     else:
         print(f"Папка {SOURCE_DIR} не знайдена!")
+        
