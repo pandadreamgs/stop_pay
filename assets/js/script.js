@@ -176,7 +176,7 @@ function renderSite() {
                 ${groups[key].map(s => `
                     <div class="card" onclick="handleServiceClick('${s.id}')">
                         <div class="card-icon-wrapper">
-                            <img src="${BASE_URL}/${s.img || s.icon}" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
+                            <img src="${BASE_URL}/assets/icons/${s.id}.png" onerror="this.src='${BASE_URL}/assets/icons/default.png'">
                         </div>
                         <div class="card-name">${s.name}</div>
                     </div>
