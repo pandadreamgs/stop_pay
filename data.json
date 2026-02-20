@@ -5,16 +5,6 @@
   ],
   "services": [
     {
-      "id": "sweet_tv",
-      "name": "Sweet.tv",
-      "category": "tv",
-      "price_usd": 7.99,
-      "type": "ua",
-      "official_url": "https://megogo.net",
-      "official_cancel_url": "https://megogo.net/ua/cabinet/subscription",
-      "icon": "assets/icons/sweet-tv.png"
-    },
-    {
       "id": "netflix",
       "name": "Netflix",
       "category": "tv",
