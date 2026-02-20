@@ -5,6 +5,15 @@
   ],
   "services": [
     {
+      "id": "megogo",
+      "name": "Megogo",
+      "category": "tv",
+      "price_usd": 0.0,
+      "type": "global",
+      "official_url": "https://megogo.net/",
+      "official_cancel_url": "https://megogo.net/"
+    },
+    {
       "id": "netflix",
       "name": "Netflix",
       "category": "tv",
