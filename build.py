@@ -16,7 +16,7 @@ def build():
     available_langs = [f.replace('.json', '') for f in os.listdir('i18n') if f.endswith('.json')]
     print(f"Знайдено мови: {available_langs}")
 
-    # 3. ЗБІР СЕРВІСІВ
+    # 3. ЗБІР СЕРВІСІВ (метадані)
     all_services = []
     if os.path.exists('services'):
         for s_file in os.listdir('services'):
@@ -73,28 +73,43 @@ def build():
                     price = str(s.get('price_usd', 0))
                     sid = s['id']
 
-                    # 1. Обробка кроків (на ГОЛОВНУ)
-                    steps = list(c.get('steps', []))
-                    if steps:
-                        clean_url = s["official_url"].replace("https://", "").replace("http://", "").rstrip('/')
-                        # Створюємо посилання для першого кроку
-                        link_html = f'<a href="{s["official_url"]}" target="_blank" rel="noopener" onclick="handlePriceAdd(\'{price}\', \'{sid}\')">{clean_url}</a>'
-                        steps[0] = steps[0].replace(clean_url, link_html)
-                    steps_html = "".join([f"<li>{step}</li>" for step in steps])
+                    # --- НОВА ЛОГІКА ОБРОБКИ КРОКІВ (КАРТКИ) ---
+                    steps_data = c.get('steps', {})
+                    steps_html = ""
 
-                    # 2. Обробка підказки (cancel_hint)
-                    # Оскільки в JSON вже є тег <a href="{{ official_url }}">, ми просто наповнюємо його
+                    # Якщо steps - це словник (новий формат)
+                    if isinstance(steps_data, dict):
+                        for key, data in steps_data.items():
+                            step_title = data.get('title', '').upper()
+                            step_desc = data.get('description', '')
+                            
+                            # Форматування тексту
+                            formatted_desc = step_desc.replace('\n', '<br>')
+                            if '*' in formatted_desc:
+                                items = formatted_desc.split('*')
+                                main_text = items[0]
+                                li_items = "".join([f"<li>{item.strip()}</li>" for item in items[1:] if item.strip()])
+                                formatted_desc = f"{main_text}<ul class='steps-list-inner'>{li_items}</ul>"
+
+                            steps_html += f'''
+                            <div class="instruction-card">
+                                <h2 class="step-card-title">{step_title}</h2>
+                                <div class="step-card-content">{formatted_desc}</div>
+                            </div>
+                            '''
+                    # Якщо раптом старий формат (масив) - для зворотної сумісності
+                    elif isinstance(steps_data, list):
+                        li_items = "".join([f"<li>{step}</li>" for step in steps_data])
+                        steps_html = f'<div class="instruction-card"><ul class="steps-list">{li_items}</ul></div>'
+
+                    # --- РЕШТА ОБРОБКИ ---
                     hint_text = lang_data.get('cancel_hint', '')
-                    # Вставляємо URL
                     hint_text = hint_text.replace('{{ official_url }}', s["official_url"])
-                    # Додаємо обробник кліку в існуючий тег (шукаємо місце перед закриттям тегу <a>)
                     hint_text = hint_text.replace('target="_blank"', f'target="_blank" onclick="handlePriceAdd(\'{price}\', \'{sid}\')"')
                     
-                    # 3. Обробка SEO тексту
                     seo_content = c.get('seo_text', '')
                     seo_html = f'<div class="seo-text">{seo_content}</div>' if seo_content else ''
 
-                    # 4. Наповнення шаблону
                     pg = page_tpl.replace('{{ title }}', c.get('title', '')) \
                                  .replace('{{ price_usd }}', price) \
                                  .replace('{{ service_id }}', sid) \
@@ -104,9 +119,7 @@ def build():
                                  .replace('{{ btn_cancel_text }}', lang_data.get('ui', {}).get('btn_cancel', 'Cancel')) \
                                  .replace('{{ cancel_url }}', s['official_cancel_url'])
                     
-                    # Вирізаємо конструкції {% if seo_text %}...{% endif %} та вставляємо контент
                     pg = re.sub(r'\{% if seo_text %\}.*?\{% endif %}', seo_html, pg, flags=re.DOTALL)
-                    # На випадок якщо плейсхолдер без тегів умови
                     pg = pg.replace('{{ seo_text }}', seo_html)
 
                     full_pg = layout.replace('{{ content }}', pg)
@@ -125,4 +138,3 @@ def build():
 
 if __name__ == "__main__":
     build()
-            
