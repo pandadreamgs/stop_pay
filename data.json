@@ -6,7 +6,7 @@
   "services": [
     {
       "id": "youtube",
-      "name": "YouTube Premium Individual",
+      "name": "YouTube Premium",
       "category": "tv",
       "price_usd": 13.99,
       "type": "global",
