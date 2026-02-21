@@ -49,11 +49,77 @@ async function loadData() {
         
         // Підтягуємо глобальну суму з бекенду
         await syncGlobalCounter();
+        setupFab();
         
     } catch (e) { 
         console.error("ERROR:", e); 
     }
 }
+
+function setupFab() {
+    const fabBtn = document.getElementById('fabBtn');
+    const fabIcon = document.getElementById('fabIcon');
+    const isService = document.getElementById('isServicePage');
+
+    if (isService) {
+        // Ми на сторінці сервісу
+        fabIcon.innerText = "?";
+        // Можна змінити колір, якщо хочеш: fabBtn.style.background = "#ffa502"; 
+    } else {
+        // Ми на головній
+        fabIcon.innerText = "+";
+    }
+}
+
+// Нова функція кліку по FAB
+function handleFabClick() {
+    const isService = document.getElementById('isServicePage');
+    const info = siteData.ui.ui;
+
+    if (isService) {
+        // Логіка для "Повідомити про помилку"
+        const serviceId = isService.getAttribute('data-service-id');
+        document.getElementById('modalTitle').innerText = info.report_error_title || "Помилка в інструкції?";
+        document.getElementById('modalDesc').innerText = (info.report_error_desc || "Опишіть, що не так з сервісом") + `: ${serviceId}`;
+        document.getElementById('aiServiceInput').placeholder = info.report_error_placeholder || "Наприклад: Кнопка 'Скасувати' змінила місце...";
+        document.getElementById('modalBtn').onclick = () => sendReport('error', serviceId);
+    } else {
+        // Логіка для "Додати сервіс" (стара)
+        document.getElementById('modalTitle').innerText = info.feedback_title;
+        document.getElementById('modalDesc').innerText = info.feedback_desc;
+        document.getElementById('aiServiceInput').placeholder = info.search_placeholder;
+        document.getElementById('modalBtn').onclick = () => sendReport('new_service');
+    }
+    toggleModal();
+}
+
+// Універсальна функція відправки
+async function sendReport(type, serviceId = "") {
+    const input = document.getElementById('aiServiceInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const btn = document.getElementById('modalBtn');
+    btn.disabled = true;
+
+    // Формуємо повідомлення так, щоб твій скрипт на бекенді їх розрізняв
+    // Наприклад, додаємо префікс [ERROR] або [NEW]
+    const prefix = type === 'error' ? `[REPORT_ERROR: ${serviceId}] ` : `[ADD_SERVICE] `;
+    const finalMessage = prefix + text;
+
+    try {
+        // Відправляємо на твій існуючий BRIDGE_URL
+        await fetch(`${BRIDGE_URL}?service=${encodeURIComponent(finalMessage)}`, { mode: 'no-cors' });
+        alert(siteData.ui.ui?.ai_success || "Дякуємо! Повідомлення надіслано.");
+        toggleModal();
+        input.value = "";
+    } catch (e) {
+        alert("Помилка відправки");
+    } finally {
+        btn.disabled = false;
+    }
+}
+
 
 // --- ЛІЧИЛЬНИК ТА МІСТОК ---
 
