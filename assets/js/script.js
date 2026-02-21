@@ -359,20 +359,6 @@ function toggleMenu() { document.getElementById('dropdownList').classList.toggle
 function toggleModal() { document.getElementById('feedbackModal').classList.toggle('active'); }
 function closeModalOutside(e) { if (e.target.id === 'feedbackModal') toggleModal(); }
 
-async function sendToAi() {
-    const input = document.getElementById('aiServiceInput');
-    const name = input.value.trim();
-    if (!name) return;
-    const btn = document.getElementById('modalBtn');
-    btn.disabled = true; btn.innerText = "...";
-    try {
-        await fetch(`${BRIDGE_URL}?service=${encodeURIComponent(name)}`, { mode: 'no-cors' });
-        alert(siteData.ui.ui?.ai_success || "Sent!"); 
-        toggleModal(); input.value = "";
-    } catch (e) { alert("Error"); }
-    finally { btn.disabled = false; btn.innerText = siteData.ui.ui?.feedback_btn || "Send"; }
-}
-
 function handleSearch(query) {
     const container = document.getElementById('siteContent');
     if (!container || !siteData) return;
