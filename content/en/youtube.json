@@ -1,15 +1,23 @@
 {
   "title": "How to unsubscribe from YouTube Premium",
-  "description": "You can cancel your YouTube Premium membership through the YouTube website or app, or through Google Play if you signed up that way. Follow these steps to cancel your subscription.",
+  "description": "You can cancel your YouTube Premium membership through the YouTube website or app, or through Google Play or the Apple App Store depending on how you signed up. Follow these steps to cancel your subscription.",
   "steps": {
     "web": {
       "title": "Cancel YouTube Premium via Website",
-      "description": "To cancel your YouTube Premium subscription via the website:\n\n*   Go to the YouTube website and click your profile icon.\n*   Select \"Purchases and memberships\" from the dropdown menu.\n*   Click \"Manage membership\".\n*   Click \"Deactivate\" and then \"Continue\".\n*   Choose a reason for cancellation and click \"Next\".\n*   Confirm by clicking \"Yes, cancel\"."
+      "description": "To cancel your YouTube Premium subscription via the website:\n\n*   Go to youtube.com/paid_memberships.\n*   Click 'Manage membership'.\n*   Click 'Deactivate' and then 'Continue to cancel'.\n*   Choose a reason for cancellation and click 'Next'.\n*   Confirm by clicking 'Yes, cancel'."
     },
     "app": {
       "title": "Cancel YouTube Premium via Android App",
-      "description": "To cancel your YouTube Premium subscription via the Android app:\n\n*   Launch the YouTube app on your Android device.\n*   Tap your profile icon, then the gear icon.\n*   Select Purchases and memberships.\n*   Tap the subscription you wish to cancel.\n*   Tap Cancel, then Continue.\n*   Provide a cancellation reason.\n*   Confirm by tapping Cancel Premium."
+      "description": "To cancel your YouTube Premium subscription via the Android app:\n\n*   Launch the YouTube app on your Android device.\n*   Tap your profile icon in the top right corner.\n*   Select 'Purchases and memberships'.\n*   Tap the subscription you wish to cancel, which will be 'YouTube Premium'.\n*   Tap 'Cancel subscription', then 'Continue'.\n*   Provide a cancellation reason.\n*   Confirm by tapping 'Cancel Premium'."
+    },
+    "ios": {
+      "title": "Cancel YouTube Premium via Apple App Store",
+      "description": "To cancel your YouTube Premium subscription via the Apple App Store:\n\n*   Open the Settings app on your iOS device.\n*   Tap on your Apple ID at the top.\n*   Select 'Subscriptions'.\n*   Tap 'YouTube Premium'.\n*   Tap 'Cancel Subscription'."
+    },
+    "google_play": {
+      "title": "Cancel YouTube Premium via Google Play",
+      "description": "To cancel your YouTube Premium subscription via Google Play:\n\n*   Open the Google Play Store app.\n*   Tap your profile icon in the top right corner.\n*   Select 'Payments & subscriptions'.\n*   Tap 'Subscriptions'.\n*   Tap 'YouTube Premium'.\n*   Tap 'Cancel subscription'.\n*   Select a reason and tap 'Continue'.\n*   Tap 'Cancel subscription' to confirm."
     }
   },
-  "seo_text": "Cancel YouTube Premium subscription. Steps to unsubscribe from YouTube Premium on website, Android app, and Google Play."
+  "seo_text": "Cancel YouTube Premium subscription. Steps to unsubscribe from YouTube Premium on website, Android app, Google Play, and Apple App Store."
 }
