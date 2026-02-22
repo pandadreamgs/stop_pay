@@ -5,15 +5,6 @@
   ],
   "services": [
     {
-      "id": "promova",
-      "name": "Promova",
-      "category": "software",
-      "price_usd": 9.99,
-      "type": "global",
-      "official_url": "https://promova.com",
-      "official_cancel_url": "https://promova.com"
-    },
-    {
       "id": "spotify",
       "name": "Spotify",
       "category": "music",
@@ -57,6 +48,15 @@
       "type": "ua",
       "official_url": "https://megogo.net/",
       "official_cancel_url": "https://megogo.net/"
+    },
+    {
+      "id": "promova",
+      "name": "Promova",
+      "category": "software",
+      "price_usd": 9.99,
+      "type": "global",
+      "official_url": "https://promova.com",
+      "official_cancel_url": "https://promova.com"
     },
     {
       "id": "netflix",
