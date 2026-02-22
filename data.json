@@ -5,7 +5,7 @@
   ],
   "services": [
     {
-      "id": "add-service-dodayte-bud-laska-servis-promova",
+      "id": "promova",
       "name": "Promova",
       "category": "software",
       "price_usd": 9.99,
