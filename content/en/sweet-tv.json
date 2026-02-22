@@ -1,10 +1,10 @@
 {
   "title": "How to unsubscribe from SWEET.TV",
-  "description": "Learn how to cancel your SWEET.TV subscription. The process varies depending on how you signed up (website, Google Play, Apple App Store, Roku, or Amazon). Your access will continue until the end of your current billing cycle.",
+  "description": "Learn how to cancel your SWEET.TV subscription. The process varies depending on how you signed up (website, Google Play, or Apple App Store). SWEET.TV subscriptions are commitment-free and can be cancelled at any time. Your access will continue until the end of your current billing cycle.",
   "steps": {
     "steps_1": {
-      "title": "Cancel via Website or App",
-      "description": "To cancel your Sweet TV subscription, follow these steps:\n\n*   Log in to your SWEET.TV account on their website or app.\n*   Go to the settings or account management section.\n*   Find the 'Manage Subscription' option.\n*   Select the 'Cancel Subscription' option.\n*   Confirm your cancellation request.\n*   Check for a confirmation email to ensure your subscription has been successfully cancelled."
+      "title": "Cancel via Website",
+      "description": "If you signed up on the website, you can cancel your subscription by logging into your account on the SWEET.TV website and following these steps:\n\n*   Navigate to the settings menu in the top right corner of the screen by clicking on your avatar.\n*   Choose an option and then select Continue. \n*   To finalize the cancellation, select Confirm Cancellation."
     },
     "steps_2": {
       "title": "Cancel via Google Play Store",
