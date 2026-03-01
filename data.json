@@ -214,7 +214,7 @@
     },
     {
       "id": "espn",
-      "name": "[ADD_SERVICE] ESPN+",
+      "name": "ESPN+",
       "category": "tv",
       "price_usd": 12.99,
       "type": "global",
