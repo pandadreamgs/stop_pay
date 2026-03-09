@@ -591,15 +591,6 @@
       "official_cancel_url": "https://preply.com"
     },
     {
-      "id": "projector-library",
-      "name": "Projector Library",
-      "category": "software",
-      "price_usd": 0.0,
-      "type": "global",
-      "official_url": null,
-      "official_cancel_url": null
-    },
-    {
       "id": "prom-smart-ua",
       "name": "Prom Smart UA",
       "category": "software",
