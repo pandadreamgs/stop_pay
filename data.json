@@ -393,15 +393,6 @@
       "official_cancel_url": "www.maczfit.pl"
     },
     {
-      "id": "magisterium-projector",
-      "name": "Magisterium AI Projector",
-      "category": "software",
-      "price_usd": 3.99,
-      "type": "global",
-      "official_url": null,
-      "official_cancel_url": null
-    },
-    {
       "id": "masterclass",
       "name": "MasterClass",
       "category": "software",
