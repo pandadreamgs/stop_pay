@@ -351,10 +351,10 @@
       "id": "kyyivstar-tb",
       "name": "Київстар ТБ",
       "category": "tv",
-      "price_usd": 3.0,
+      "price_usd": 2.9,
       "type": "ua",
       "official_url": "https://tv.kyivstar.ua/",
-      "official_cancel_url": "https://account.kyivstar.ua/"
+      "official_cancel_url": "https://tv.kyivstar.ua/settings"
     },
     {
       "id": "legimi",
