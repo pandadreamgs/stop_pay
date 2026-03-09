@@ -1,9 +1,9 @@
 {
-  "id": "hellofresh",
-  "name": "HelloFresh (US)",
-  "category": "software",
-  "price_usd": 9.0,
-  "type": "us",
-  "official_url": "https://www.hellofresh.com/",
-  "official_cancel_url": "https://www.hellofresh.com/"
+"id": "hellofresh",
+        "name": "HelloFresh",
+        "category": "food",
+        "price_usd": 11.49,
+        "type": "us",
+        "official_url": "https://www.hellofresh.com/",
+        "official_cancel_url": "https://www.hellofresh.com/account/plans"
 }
