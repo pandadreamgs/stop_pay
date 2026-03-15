@@ -8,26 +8,26 @@
     {
       "id": "adobe-firefly",
       "name": "Adobe Firefly",
-      "category": "software",
-      "price_usd": 11.99,
+      "category": "ai",
+      "price_usd": 4.99,
       "type": "global",
-      "official_url": "https://www.adobe.com/",
+      "official_url": "https://www.adobe.com/products/firefly.html",
       "official_cancel_url": "https://account.adobe.com/plans"
     },
     {
       "id": "allegro-smart",
       "name": "Allegro (Allegro Smart!)",
-      "category": "software",
-      "price_usd": 4.94,
+      "category": "lifestyle",
+      "price_usd": 3.75,
       "type": "pl",
-      "official_url": "https://allegro.pl",
-      "official_cancel_url": "https://na.allegro.pl/smart-formularz-kontaktowy"
+      "official_url": "https://allegro.pl/smart",
+      "official_cancel_url": "https://allegro.pl/moje-allegro/zakupy/allegro-smart"
     },
     {
       "id": "apple",
       "name": "Apple TV+",
       "category": "tv",
-      "price_usd": 12.99,
+      "price_usd": 9.99,
       "type": "global",
       "official_url": "https://tv.apple.com/",
       "official_cancel_url": "https://support.apple.com/en-us/HT202039"
@@ -53,11 +53,11 @@
     {
       "id": "badoo",
       "name": "Badoo",
-      "category": "software",
-      "price_usd": 9.99,
+      "category": "lifestyle",
+      "price_usd": 12.99,
       "type": "global",
-      "official_url": "badoo.com",
-      "official_cancel_url": "badoo.com"
+      "official_url": "https://badoo.com",
+      "official_cancel_url": "https://badoo.com/settings/payment"
     },
     {
       "id": "barkbox",
@@ -80,20 +80,20 @@
     {
       "id": "blue-apron",
       "name": "Blue Apron",
-      "category": "software",
-      "price_usd": 9.99,
-      "type": "global",
+      "category": "food",
+      "price_usd": 11.0,
+      "type": "us",
       "official_url": "https://www.blueapron.com",
-      "official_cancel_url": "https://www.blueapron.com"
+      "official_cancel_url": "https://www.blueapron.com/account#subscription"
     },
     {
       "id": "bolt-food-bolt-plus",
-      "name": "Bolt Food (Bolt Plus)",
-      "category": "software",
+      "name": "Bolt Plus",
+      "category": "food",
       "price_usd": 4.99,
       "type": "global",
-      "official_url": "https://bolt.eu/",
-      "official_cancel_url": "https://bolt.eu/"
+      "official_url": "https://bolt.eu/food/",
+      "official_cancel_url": "https://bolt.eu/uk-ua/food/"
     },
     {
       "id": "canal-plus-online-poland",
@@ -124,12 +124,12 @@
     },
     {
       "id": "claude",
-      "name": "Claude",
+      "name": "Claude Pro",
       "category": "ai",
       "price_usd": 20.0,
       "type": "global",
-      "official_url": "https://www.anthropic.com/",
-      "official_cancel_url": null
+      "official_url": "https://claude.ai/",
+      "official_cancel_url": "https://claude.ai/settings/billing"
     },
     {
       "id": "coursera",
@@ -187,12 +187,12 @@
     },
     {
       "id": "edera",
-      "name": "Ukrainian EdTech Studio EdEra",
+      "name": "EdEra",
       "category": "education",
       "price_usd": 0.0,
       "type": "ua",
-      "official_url": "https://edera.dev",
-      "official_cancel_url": "https://edera.dev"
+      "official_url": "https://www.ed-era.com/",
+      "official_cancel_url": "https://www.ed-era.com/"
     },
     {
       "id": "elestio-prometheus",
@@ -277,12 +277,12 @@
     },
     {
       "id": "hellofresh",
-      "name": "HelloFresh (US)",
-      "category": "software",
-      "price_usd": 9.0,
+      "name": "HelloFresh",
+      "category": "food",
+      "price_usd": 11.49,
       "type": "us",
       "official_url": "https://www.hellofresh.com/",
-      "official_cancel_url": "https://www.hellofresh.com/"
+      "official_cancel_url": "https://www.hellofresh.com/account/plans"
     },
     {
       "id": "helsi",
@@ -351,10 +351,10 @@
       "id": "kyyivstar-tb",
       "name": "Київстар ТБ",
       "category": "tv",
-      "price_usd": 3.0,
+      "price_usd": 2.9,
       "type": "ua",
       "official_url": "https://tv.kyivstar.ua/",
-      "official_cancel_url": "https://account.kyivstar.ua/"
+      "official_cancel_url": "https://tv.kyivstar.ua/settings"
     },
     {
       "id": "legimi",
@@ -394,12 +394,12 @@
     },
     {
       "id": "magisterium-projector",
-      "name": "Magisterium AI Projector",
-      "category": "software",
-      "price_usd": 3.99,
+      "name": "Magisterium AI",
+      "category": "ai",
+      "price_usd": 15.0,
       "type": "global",
-      "official_url": null,
-      "official_cancel_url": null
+      "official_url": "https://www.magisterium.com/",
+      "official_cancel_url": "https://www.magisterium.com/account"
     },
     {
       "id": "masterclass",
@@ -593,11 +593,11 @@
     {
       "id": "projector-library",
       "name": "Projector Library",
-      "category": "software",
-      "price_usd": 0.0,
-      "type": "global",
-      "official_url": null,
-      "official_cancel_url": null
+      "category": "education",
+      "price_usd": 5.0,
+      "type": "ua",
+      "official_url": "https://prjctr.com/library",
+      "official_cancel_url": "https://prjctr.com/library"
     },
     {
       "id": "prom-smart-ua",
@@ -647,11 +647,11 @@
     {
       "id": "skvot",
       "name": "Skvot",
-      "category": "software",
+      "category": "education",
       "price_usd": 0.0,
-      "type": "global",
-      "official_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzvThiZIWxQOl05MXrVe6Q8I6vlg3Rk9WKDoleM71hoJ5IuYuhiV0lIiw-1VhfdFlmvj61lRYnLBsTrVSFeS8oKWV11zvboB_i9bEcm6C56xFeqss3Tbq6HLSuf3dYWw==",
-      "official_cancel_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzvThiZIWxQOl05MXrVe6Q8I6vlg3Rk9WKDoleM71hoJ5IuYuhiV0lIiw-1VhfdFlmvj61lRYnLBsTrVSFeS8oKWV11zvboB_i9bEcm6C56xFeqss3Tbq6HLSuf3dYWw=="
+      "type": "ua",
+      "official_url": "https://skvot.io/",
+      "official_cancel_url": "https://skvot.io/"
     },
     {
       "id": "skyshowtime-poland",
